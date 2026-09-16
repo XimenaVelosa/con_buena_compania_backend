@@ -1,0 +1,17 @@
+// use prisma-8
+
+model Client {
+  id             Uuid    @id @default(uuid())
+  fullName       String
+  age            Int?
+  phone          String?
+  address        String?
+  zone           String?
+
+  requesterName  String?
+  payerName      String?
+  acceptsService Boolean @default(false)
+
+  createdAt      temporal.createdAt()
+  updatedAt      temporal.updatedAt()
+}
