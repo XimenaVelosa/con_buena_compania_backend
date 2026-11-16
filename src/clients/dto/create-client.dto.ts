@@ -1,19 +1,29 @@
-import {
-  IsBoolean,
-  IsInt,
-  IsOptional,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsBoolean, IsInt, IsOptional, IsString, Min } from 'class-validator';
 
 export class CreateClientDto {
+  @IsOptional()
+  @IsString()
+  visitDate?: string;
+
+  @IsOptional()
+  @IsString()
+  visitTime?: string;
+
+  @IsOptional()
+  @IsString()
+  visitLocation?: string;
+
+  @IsOptional()
+  @IsString()
+  visitAgentName?: string;
+
   @IsString()
   fullName!: string;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  age?: number;
+  approximateAge?: number;
 
   @IsOptional()
   @IsString()
@@ -25,11 +35,11 @@ export class CreateClientDto {
 
   @IsOptional()
   @IsString()
-  zone?: string;
+  requesterName?: string;
 
   @IsOptional()
   @IsString()
-  requesterName?: string;
+  requesterRelationship?: string;
 
   @IsOptional()
   @IsString()
@@ -37,5 +47,5 @@ export class CreateClientDto {
 
   @IsOptional()
   @IsBoolean()
-  acceptsService?: boolean;
+  knowsVisit?: boolean;
 }

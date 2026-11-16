@@ -1,16 +1,25 @@
 // use prisma-8
 
 model Client {
-  id             Uuid    @id @default(uuid())
-  fullName       String
-  age            Int?
-  phone          String?
-  address        String?
-  zone           String?
+  id                    Uuid    @id @default(uuid())
 
-  requesterName  String?
-  payerName      String?
-  acceptsService Boolean @default(false)
+  // Datos de la visita inicial
+  visitDate             String?
+  visitTime             String?
+  visitLocation         String?
+  visitAgentName        String?
+
+  // Información básica de la persona usuaria
+  fullName              String
+  approximateAge        Int?
+  phone                 String?
+  address               String?
+
+  // Personas relacionadas con la solicitud y el pago
+  requesterName         String?
+  requesterRelationship String?
+  payerName             String?
+  knowsVisit            Boolean @default(false)
 
   createdAt      temporal.createdAt()
   updatedAt      temporal.updatedAt()

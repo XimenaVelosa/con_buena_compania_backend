@@ -10,14 +10,18 @@ export class ClientsService {
 
   async create(data: CreateClientDto) {
     return await db.orm.public.Client.create({
+      visitDate: data.visitDate,
+      visitTime: data.visitTime,
+      visitLocation: data.visitLocation,
+      visitAgentName: data.visitAgentName,
       fullName: data.fullName,
-      age: data.age,
+      approximateAge: data.approximateAge,
       phone: data.phone,
       address: data.address,
-      zone: data.zone,
       requesterName: data.requesterName,
+      requesterRelationship: data.requesterRelationship,
       payerName: data.payerName,
-      acceptsService: data.acceptsService ?? false,
+      knowsVisit: data.knowsVisit ?? false,
     });
   }
 }

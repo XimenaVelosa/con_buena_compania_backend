@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'df0d95f0679ab94028711dc93738cf9faa3f2207a07d2317bdac80200a220df9'>;
+  StorageHashBase<'94708f3c3467cc2a41c3d9581114aa41c730a67e00347771a20954632e0a9a20'>;
 export type ExecutionHash =
   ExecutionHashBase<'34e9a6e3fc876ddbad9c4eb777c3b114d7f8c8ea3e029906fb6ae6733b0dcad0'>;
 export type ProfileHash =
@@ -244,14 +244,18 @@ export type FieldOutputTypes = {
   readonly public: {
     readonly Client: {
       readonly id: CodecTypes['pg/uuid@1']['output'];
+      readonly visitDate: CodecTypes['pg/text@1']['output'] | null;
+      readonly visitTime: CodecTypes['pg/text@1']['output'] | null;
+      readonly visitLocation: CodecTypes['pg/text@1']['output'] | null;
+      readonly visitAgentName: CodecTypes['pg/text@1']['output'] | null;
       readonly fullName: CodecTypes['pg/text@1']['output'];
-      readonly age: CodecTypes['pg/int4@1']['output'] | null;
+      readonly approximateAge: CodecTypes['pg/int4@1']['output'] | null;
       readonly phone: CodecTypes['pg/text@1']['output'] | null;
       readonly address: CodecTypes['pg/text@1']['output'] | null;
-      readonly zone: CodecTypes['pg/text@1']['output'] | null;
       readonly requesterName: CodecTypes['pg/text@1']['output'] | null;
+      readonly requesterRelationship: CodecTypes['pg/text@1']['output'] | null;
       readonly payerName: CodecTypes['pg/text@1']['output'] | null;
-      readonly acceptsService: CodecTypes['pg/bool@1']['output'];
+      readonly knowsVisit: CodecTypes['pg/bool@1']['output'];
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
@@ -261,14 +265,18 @@ export type FieldInputTypes = {
   readonly public: {
     readonly Client: {
       readonly id: CodecTypes['pg/uuid@1']['input'];
+      readonly visitDate: CodecTypes['pg/text@1']['input'] | null;
+      readonly visitTime: CodecTypes['pg/text@1']['input'] | null;
+      readonly visitLocation: CodecTypes['pg/text@1']['input'] | null;
+      readonly visitAgentName: CodecTypes['pg/text@1']['input'] | null;
       readonly fullName: CodecTypes['pg/text@1']['input'];
-      readonly age: CodecTypes['pg/int4@1']['input'] | null;
+      readonly approximateAge: CodecTypes['pg/int4@1']['input'] | null;
       readonly phone: CodecTypes['pg/text@1']['input'] | null;
       readonly address: CodecTypes['pg/text@1']['input'] | null;
-      readonly zone: CodecTypes['pg/text@1']['input'] | null;
       readonly requesterName: CodecTypes['pg/text@1']['input'] | null;
+      readonly requesterRelationship: CodecTypes['pg/text@1']['input'] | null;
       readonly payerName: CodecTypes['pg/text@1']['input'] | null;
-      readonly acceptsService: CodecTypes['pg/bool@1']['input'];
+      readonly knowsVisit: CodecTypes['pg/bool@1']['input'];
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
@@ -277,34 +285,42 @@ export type FieldInputTypes = {
 export type StorageColumnTypes = {
   readonly public: {
     readonly client: {
-      readonly acceptsService: CodecTypes['pg/bool@1']['output'];
       readonly address: CodecTypes['pg/text@1']['output'] | null;
-      readonly age: CodecTypes['pg/int4@1']['output'] | null;
+      readonly approximateAge: CodecTypes['pg/int4@1']['output'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly fullName: CodecTypes['pg/text@1']['output'];
       readonly id: CodecTypes['pg/uuid@1']['output'];
+      readonly knowsVisit: CodecTypes['pg/bool@1']['output'];
       readonly payerName: CodecTypes['pg/text@1']['output'] | null;
       readonly phone: CodecTypes['pg/text@1']['output'] | null;
       readonly requesterName: CodecTypes['pg/text@1']['output'] | null;
+      readonly requesterRelationship: CodecTypes['pg/text@1']['output'] | null;
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
-      readonly zone: CodecTypes['pg/text@1']['output'] | null;
+      readonly visitAgentName: CodecTypes['pg/text@1']['output'] | null;
+      readonly visitDate: CodecTypes['pg/text@1']['output'] | null;
+      readonly visitLocation: CodecTypes['pg/text@1']['output'] | null;
+      readonly visitTime: CodecTypes['pg/text@1']['output'] | null;
     };
   };
 };
 export type StorageColumnInputTypes = {
   readonly public: {
     readonly client: {
-      readonly acceptsService: CodecTypes['pg/bool@1']['input'];
       readonly address: CodecTypes['pg/text@1']['input'] | null;
-      readonly age: CodecTypes['pg/int4@1']['input'] | null;
+      readonly approximateAge: CodecTypes['pg/int4@1']['input'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly fullName: CodecTypes['pg/text@1']['input'];
       readonly id: CodecTypes['pg/uuid@1']['input'];
+      readonly knowsVisit: CodecTypes['pg/bool@1']['input'];
       readonly payerName: CodecTypes['pg/text@1']['input'] | null;
       readonly phone: CodecTypes['pg/text@1']['input'] | null;
       readonly requesterName: CodecTypes['pg/text@1']['input'] | null;
+      readonly requesterRelationship: CodecTypes['pg/text@1']['input'] | null;
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
-      readonly zone: CodecTypes['pg/text@1']['input'] | null;
+      readonly visitAgentName: CodecTypes['pg/text@1']['input'] | null;
+      readonly visitDate: CodecTypes['pg/text@1']['input'] | null;
+      readonly visitLocation: CodecTypes['pg/text@1']['input'] | null;
+      readonly visitTime: CodecTypes['pg/text@1']['input'] | null;
     };
   };
 };
@@ -312,14 +328,18 @@ export type StorageColumnInputTypes = {
 export namespace Models {
   export type public_Client = {
     id: CodecTypes['pg/uuid@1']['output'];
+    visitDate: CodecTypes['pg/text@1']['output'] | null;
+    visitTime: CodecTypes['pg/text@1']['output'] | null;
+    visitLocation: CodecTypes['pg/text@1']['output'] | null;
+    visitAgentName: CodecTypes['pg/text@1']['output'] | null;
     fullName: CodecTypes['pg/text@1']['output'];
-    age: CodecTypes['pg/int4@1']['output'] | null;
+    approximateAge: CodecTypes['pg/int4@1']['output'] | null;
     phone: CodecTypes['pg/text@1']['output'] | null;
     address: CodecTypes['pg/text@1']['output'] | null;
-    zone: CodecTypes['pg/text@1']['output'] | null;
     requesterName: CodecTypes['pg/text@1']['output'] | null;
+    requesterRelationship: CodecTypes['pg/text@1']['output'] | null;
     payerName: CodecTypes['pg/text@1']['output'] | null;
-    acceptsService: CodecTypes['pg/bool@1']['output'];
+    knowsVisit: CodecTypes['pg/bool@1']['output'];
     createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     readonly [RelationKeys]?: never;
@@ -357,12 +377,32 @@ type ContractBase = Omit<
                   readonly codecId: 'pg/uuid@1';
                   readonly nullable: false;
                 };
+                readonly visitDate: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly visitTime: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly visitLocation: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly visitAgentName: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
                 readonly fullName: {
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
                 };
-                readonly age: {
+                readonly approximateAge: {
                   readonly nativeType: 'int4';
                   readonly codecId: 'pg/int4@1';
                   readonly nullable: true;
@@ -377,12 +417,12 @@ type ContractBase = Omit<
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
                 };
-                readonly zone: {
+                readonly requesterName: {
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
                 };
-                readonly requesterName: {
+                readonly requesterRelationship: {
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
@@ -392,7 +432,7 @@ type ContractBase = Omit<
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
                 };
-                readonly acceptsService: {
+                readonly knowsVisit: {
                   readonly nativeType: 'bool';
                   readonly codecId: 'pg/bool@1';
                   readonly nullable: false;
@@ -441,11 +481,27 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
               };
+              readonly visitDate: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly visitTime: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly visitLocation: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly visitAgentName: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly fullName: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly age: {
+              readonly approximateAge: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
@@ -457,11 +513,11 @@ type ContractBase = Omit<
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly zone: {
+              readonly requesterName: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly requesterName: {
+              readonly requesterRelationship: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -469,7 +525,7 @@ type ContractBase = Omit<
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly acceptsService: {
+              readonly knowsVisit: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
               };
@@ -494,14 +550,18 @@ type ContractBase = Omit<
               readonly namespaceId: 'public';
               readonly fields: {
                 readonly id: { readonly column: 'id' };
+                readonly visitDate: { readonly column: 'visitDate' };
+                readonly visitTime: { readonly column: 'visitTime' };
+                readonly visitLocation: { readonly column: 'visitLocation' };
+                readonly visitAgentName: { readonly column: 'visitAgentName' };
                 readonly fullName: { readonly column: 'fullName' };
-                readonly age: { readonly column: 'age' };
+                readonly approximateAge: { readonly column: 'approximateAge' };
                 readonly phone: { readonly column: 'phone' };
                 readonly address: { readonly column: 'address' };
-                readonly zone: { readonly column: 'zone' };
                 readonly requesterName: { readonly column: 'requesterName' };
+                readonly requesterRelationship: { readonly column: 'requesterRelationship' };
                 readonly payerName: { readonly column: 'payerName' };
-                readonly acceptsService: { readonly column: 'acceptsService' };
+                readonly knowsVisit: { readonly column: 'knowsVisit' };
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
               };
