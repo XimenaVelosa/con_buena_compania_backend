@@ -48,4 +48,72 @@ export class CreateClientDto {
   @IsOptional()
   @IsBoolean()
   knowsVisit?: boolean;
+
+  @IsOptional()
+  @IsString()
+  mobilityNeeds?: string;
+
+  @IsOptional()
+  @IsString()
+  mobilityNotes?: string;
+
+  @IsOptional()
+  @IsString()
+  independentActivities?: string;
+
+  @IsOptional()
+  @IsString()
+  independenceNotes?: string;
+
+  @IsOptional()
+  @IsString()
+  homeAccessConditions?: string;
+
+  @IsOptional()
+  @IsString()
+  homeSafetyNotes?: string;
+
+  @IsOptional()
+  @IsString()
+  medicationSupport?: string;
+
+  @IsOptional()
+  @IsString()
+  personalCareSupport?: string;
+
+  @IsOptional()
+  @IsString()
+  outingConditions?: string;
+
+  @IsOptional()
+  @IsString()
+  transportPlan?: string;
+
+  @IsOptional()
+  @IsString()
+  homeSafetyConditions?: string;
+
+  @IsOptional()
+  @IsString()
+  emergencyContacts?: string;
+
+  @IsOptional()
+  @IsString()
+  preferences?: string;
+
+  @IsOptional()
+  @IsString()
+  visitConclusion?: string;
+
+  @IsOptional()
+  @IsString()
+  recommendedServices?: string;
+
+  @IsOptional()
+  @IsString()
+  nextContact?: string;
+
+  @IsOptional()
+  @IsString()
+  finalNotes?: string;
 }

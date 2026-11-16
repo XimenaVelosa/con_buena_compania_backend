@@ -36,8 +36,43 @@
                   "kind": "scalar"
                 }
               },
+              "emergencyContacts": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "finalNotes": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "fullName": {
                 "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "homeAccessConditions": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "homeSafetyConditions": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "homeSafetyNotes": {
+                "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
@@ -50,10 +85,59 @@
                   "kind": "scalar"
                 }
               },
+              "independenceNotes": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "independentActivities": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "knowsVisit": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "medicationSupport": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "mobilityNeeds": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "mobilityNotes": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "nextContact": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "outingConditions": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
               },
@@ -64,7 +148,28 @@
                   "kind": "scalar"
                 }
               },
+              "personalCareSupport": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "phone": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "preferences": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "recommendedServices": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -85,6 +190,13 @@
                   "kind": "scalar"
                 }
               },
+              "transportPlan": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "updatedAt": {
                 "nullable": false,
                 "type": {
@@ -93,6 +205,13 @@
                 }
               },
               "visitAgentName": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "visitConclusion": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -133,20 +252,65 @@
                 "createdAt": {
                   "column": "createdAt"
                 },
+                "emergencyContacts": {
+                  "column": "emergencyContacts"
+                },
+                "finalNotes": {
+                  "column": "finalNotes"
+                },
                 "fullName": {
                   "column": "fullName"
+                },
+                "homeAccessConditions": {
+                  "column": "homeAccessConditions"
+                },
+                "homeSafetyConditions": {
+                  "column": "homeSafetyConditions"
+                },
+                "homeSafetyNotes": {
+                  "column": "homeSafetyNotes"
                 },
                 "id": {
                   "column": "id"
                 },
+                "independenceNotes": {
+                  "column": "independenceNotes"
+                },
+                "independentActivities": {
+                  "column": "independentActivities"
+                },
                 "knowsVisit": {
                   "column": "knowsVisit"
+                },
+                "medicationSupport": {
+                  "column": "medicationSupport"
+                },
+                "mobilityNeeds": {
+                  "column": "mobilityNeeds"
+                },
+                "mobilityNotes": {
+                  "column": "mobilityNotes"
+                },
+                "nextContact": {
+                  "column": "nextContact"
+                },
+                "outingConditions": {
+                  "column": "outingConditions"
                 },
                 "payerName": {
                   "column": "payerName"
                 },
+                "personalCareSupport": {
+                  "column": "personalCareSupport"
+                },
                 "phone": {
                   "column": "phone"
+                },
+                "preferences": {
+                  "column": "preferences"
+                },
+                "recommendedServices": {
+                  "column": "recommendedServices"
                 },
                 "requesterName": {
                   "column": "requesterName"
@@ -154,11 +318,17 @@
                 "requesterRelationship": {
                   "column": "requesterRelationship"
                 },
+                "transportPlan": {
+                  "column": "transportPlan"
+                },
                 "updatedAt": {
                   "column": "updatedAt"
                 },
                 "visitAgentName": {
                   "column": "visitAgentName"
+                },
+                "visitConclusion": {
+                  "column": "visitConclusion"
                 },
                 "visitDate": {
                   "column": "visitDate"
@@ -204,15 +374,50 @@
                   "nativeType": "timestamptz",
                   "nullable": false
                 },
+                "emergencyContacts": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "finalNotes": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "fullName": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": false
                 },
+                "homeAccessConditions": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "homeSafetyConditions": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "homeSafetyNotes": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "id": {
                   "codecId": "pg/uuid@1",
                   "nativeType": "uuid",
                   "nullable": false
+                },
+                "independenceNotes": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "independentActivities": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
                 },
                 "knowsVisit": {
                   "codecId": "pg/bool@1",
@@ -223,12 +428,52 @@
                   "nativeType": "bool",
                   "nullable": false
                 },
+                "medicationSupport": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "mobilityNeeds": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "mobilityNotes": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "nextContact": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "outingConditions": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "payerName": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": true
                 },
+                "personalCareSupport": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "phone": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "preferences": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "recommendedServices": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": true
@@ -243,12 +488,22 @@
                   "nativeType": "text",
                   "nullable": true
                 },
+                "transportPlan": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "updatedAt": {
                   "codecId": "pg/timestamptz-temporal@1",
                   "nativeType": "timestamptz",
                   "nullable": false
                 },
                 "visitAgentName": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "visitConclusion": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": true
@@ -284,7 +539,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "94708f3c3467cc2a41c3d9581114aa41c730a67e00347771a20954632e0a9a20"
+    "storageHash": "ad0c910915373c7f92ae574aba75200668134f18ef91138f075cb4aefdc0eee0"
   },
   "execution": {
     "executionHash": "34e9a6e3fc876ddbad9c4eb777c3b114d7f8c8ea3e029906fb6ae6733b0dcad0",

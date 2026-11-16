@@ -21,6 +21,25 @@ model Client {
   payerName             String?
   knowsVisit            Boolean @default(false)
 
+  // Levantamiento de necesidades y condiciones de acompañamiento
+  mobilityNeeds         String?
+  mobilityNotes         String?
+  independentActivities String?
+  independenceNotes     String?
+  homeAccessConditions  String?
+  homeSafetyNotes       String?
+  medicationSupport     String?
+  personalCareSupport   String?
+  outingConditions      String?
+  transportPlan         String?
+  homeSafetyConditions  String?
+  emergencyContacts     String?
+  preferences           String?
+  visitConclusion       String?
+  recommendedServices   String?
+  nextContact           String?
+  finalNotes            String?
+
   createdAt      temporal.createdAt()
   updatedAt      temporal.updatedAt()
 }
