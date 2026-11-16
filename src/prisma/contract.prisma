@@ -7,6 +7,8 @@ model Client {
   visitDate             String?
   visitTime             String?
   visitLocation         String?
+  visitLatitude         Float?
+  visitLongitude        Float?
   visitAgentName        String?
 
   // Información básica de la persona usuaria

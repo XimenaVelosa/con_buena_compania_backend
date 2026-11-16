@@ -1,4 +1,4 @@
-import { IsBoolean, IsInt, IsOptional, IsString, Min } from 'class-validator';
+import { IsBoolean, IsInt, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 
 export class CreateClientDto {
   @IsOptional()
@@ -12,6 +12,14 @@ export class CreateClientDto {
   @IsOptional()
   @IsString()
   visitLocation?: string;
+
+  @IsOptional()
+  @IsNumber()
+  visitLatitude?: number;
+
+  @IsOptional()
+  @IsNumber()
+  visitLongitude?: number;
 
   @IsOptional()
   @IsString()

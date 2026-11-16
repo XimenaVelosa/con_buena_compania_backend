@@ -225,10 +225,24 @@
                   "kind": "scalar"
                 }
               },
+              "visitLatitude": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/float8@1",
+                  "kind": "scalar"
+                }
+              },
               "visitLocation": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "visitLongitude": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/float8@1",
                   "kind": "scalar"
                 }
               },
@@ -333,8 +347,14 @@
                 "visitDate": {
                   "column": "visitDate"
                 },
+                "visitLatitude": {
+                  "column": "visitLatitude"
+                },
                 "visitLocation": {
                   "column": "visitLocation"
+                },
+                "visitLongitude": {
+                  "column": "visitLongitude"
                 },
                 "visitTime": {
                   "column": "visitTime"
@@ -513,9 +533,19 @@
                   "nativeType": "text",
                   "nullable": true
                 },
+                "visitLatitude": {
+                  "codecId": "pg/float8@1",
+                  "nativeType": "float8",
+                  "nullable": true
+                },
                 "visitLocation": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
+                  "nullable": true
+                },
+                "visitLongitude": {
+                  "codecId": "pg/float8@1",
+                  "nativeType": "float8",
                   "nullable": true
                 },
                 "visitTime": {
@@ -539,7 +569,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "ad0c910915373c7f92ae574aba75200668134f18ef91138f075cb4aefdc0eee0"
+    "storageHash": "4dfb47d7aa40067400a27eef9b4a72923f2c5ac970732bda61a88f8d303d6144"
   },
   "execution": {
     "executionHash": "34e9a6e3fc876ddbad9c4eb777c3b114d7f8c8ea3e029906fb6ae6733b0dcad0",

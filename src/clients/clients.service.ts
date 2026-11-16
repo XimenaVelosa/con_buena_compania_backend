@@ -13,6 +13,8 @@ export class ClientsService {
       visitDate: data.visitDate,
       visitTime: data.visitTime,
       visitLocation: data.visitLocation,
+      visitLatitude: data.visitLatitude,
+      visitLongitude: data.visitLongitude,
       visitAgentName: data.visitAgentName,
       fullName: data.fullName,
       approximateAge: data.approximateAge,

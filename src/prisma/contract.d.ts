@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'ad0c910915373c7f92ae574aba75200668134f18ef91138f075cb4aefdc0eee0'>;
+  StorageHashBase<'4dfb47d7aa40067400a27eef9b4a72923f2c5ac970732bda61a88f8d303d6144'>;
 export type ExecutionHash =
   ExecutionHashBase<'34e9a6e3fc876ddbad9c4eb777c3b114d7f8c8ea3e029906fb6ae6733b0dcad0'>;
 export type ProfileHash =
@@ -247,6 +247,8 @@ export type FieldOutputTypes = {
       readonly visitDate: CodecTypes['pg/text@1']['output'] | null;
       readonly visitTime: CodecTypes['pg/text@1']['output'] | null;
       readonly visitLocation: CodecTypes['pg/text@1']['output'] | null;
+      readonly visitLatitude: CodecTypes['pg/float8@1']['output'] | null;
+      readonly visitLongitude: CodecTypes['pg/float8@1']['output'] | null;
       readonly visitAgentName: CodecTypes['pg/text@1']['output'] | null;
       readonly fullName: CodecTypes['pg/text@1']['output'];
       readonly approximateAge: CodecTypes['pg/int4@1']['output'] | null;
@@ -285,6 +287,8 @@ export type FieldInputTypes = {
       readonly visitDate: CodecTypes['pg/text@1']['input'] | null;
       readonly visitTime: CodecTypes['pg/text@1']['input'] | null;
       readonly visitLocation: CodecTypes['pg/text@1']['input'] | null;
+      readonly visitLatitude: CodecTypes['pg/float8@1']['input'] | null;
+      readonly visitLongitude: CodecTypes['pg/float8@1']['input'] | null;
       readonly visitAgentName: CodecTypes['pg/text@1']['input'] | null;
       readonly fullName: CodecTypes['pg/text@1']['input'];
       readonly approximateAge: CodecTypes['pg/int4@1']['input'] | null;
@@ -349,7 +353,9 @@ export type StorageColumnTypes = {
       readonly visitAgentName: CodecTypes['pg/text@1']['output'] | null;
       readonly visitConclusion: CodecTypes['pg/text@1']['output'] | null;
       readonly visitDate: CodecTypes['pg/text@1']['output'] | null;
+      readonly visitLatitude: CodecTypes['pg/float8@1']['output'] | null;
       readonly visitLocation: CodecTypes['pg/text@1']['output'] | null;
+      readonly visitLongitude: CodecTypes['pg/float8@1']['output'] | null;
       readonly visitTime: CodecTypes['pg/text@1']['output'] | null;
     };
   };
@@ -387,7 +393,9 @@ export type StorageColumnInputTypes = {
       readonly visitAgentName: CodecTypes['pg/text@1']['input'] | null;
       readonly visitConclusion: CodecTypes['pg/text@1']['input'] | null;
       readonly visitDate: CodecTypes['pg/text@1']['input'] | null;
+      readonly visitLatitude: CodecTypes['pg/float8@1']['input'] | null;
       readonly visitLocation: CodecTypes['pg/text@1']['input'] | null;
+      readonly visitLongitude: CodecTypes['pg/float8@1']['input'] | null;
       readonly visitTime: CodecTypes['pg/text@1']['input'] | null;
     };
   };
@@ -399,6 +407,8 @@ export namespace Models {
     visitDate: CodecTypes['pg/text@1']['output'] | null;
     visitTime: CodecTypes['pg/text@1']['output'] | null;
     visitLocation: CodecTypes['pg/text@1']['output'] | null;
+    visitLatitude: CodecTypes['pg/float8@1']['output'] | null;
+    visitLongitude: CodecTypes['pg/float8@1']['output'] | null;
     visitAgentName: CodecTypes['pg/text@1']['output'] | null;
     fullName: CodecTypes['pg/text@1']['output'];
     approximateAge: CodecTypes['pg/int4@1']['output'] | null;
@@ -475,6 +485,16 @@ type ContractBase = Omit<
                 readonly visitLocation: {
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly visitLatitude: {
+                  readonly nativeType: 'float8';
+                  readonly codecId: 'pg/float8@1';
+                  readonly nullable: true;
+                };
+                readonly visitLongitude: {
+                  readonly nativeType: 'float8';
+                  readonly codecId: 'pg/float8@1';
                   readonly nullable: true;
                 };
                 readonly visitAgentName: {
@@ -663,6 +683,14 @@ type ContractBase = Omit<
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly visitLatitude: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
+              readonly visitLongitude: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
               readonly visitAgentName: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -791,6 +819,8 @@ type ContractBase = Omit<
                 readonly visitDate: { readonly column: 'visitDate' };
                 readonly visitTime: { readonly column: 'visitTime' };
                 readonly visitLocation: { readonly column: 'visitLocation' };
+                readonly visitLatitude: { readonly column: 'visitLatitude' };
+                readonly visitLongitude: { readonly column: 'visitLongitude' };
                 readonly visitAgentName: { readonly column: 'visitAgentName' };
                 readonly fullName: { readonly column: 'fullName' };
                 readonly approximateAge: { readonly column: 'approximateAge' };
