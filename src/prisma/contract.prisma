@@ -1,5 +1,27 @@
 // use prisma-8
 
+model AdminUser {
+  id                  Uuid    @id @default(uuid())
+  username            String  @unique
+  displayName         String
+  passwordHash        String
+  role                String  @default("admin")
+  mustChangePassword  Boolean @default(true)
+  failedLoginAttempts Int     @default(0)
+  lockedUntil         String?
+  createdAt           temporal.createdAt()
+}
+
+model AdminSession {
+  id        Uuid   @id @default(uuid())
+  tokenHash String @unique
+  userId    Uuid
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt String
+
+  @@index([userId])
+}
+
 model Client {
   id                    Uuid    @id @default(uuid())
 

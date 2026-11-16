@@ -20,7 +20,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "postinstall": "prisma skills sync || exit 0",
-    "contract:emit": "prisma contract emit"
+    "contract:emit": "prisma contract emit",
+    "admin:create": "npm run build && node scripts/create-admin.mjs",
+    "test:crm": "npm run build && node --test test/crm.integration.mjs"
   },
   "dependencies": {
     "@neon/config": "^1.5.0",

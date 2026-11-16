@@ -1,0 +1,1220 @@
+[
+  {
+    "id": "dropColumn.client.acceptsService",
+    "label": "Drop column \"acceptsService\" from \"client\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "acceptsService",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"acceptsService\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "acceptsService"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"acceptsService\"",
+        "sql": "ALTER TABLE \"public\".\"client\" DROP COLUMN \"acceptsService\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"acceptsService\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "acceptsService"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dropColumn.client.age",
+    "label": "Drop column \"age\" from \"client\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "age",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"age\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "age"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"age\"",
+        "sql": "ALTER TABLE \"public\".\"client\" DROP COLUMN \"age\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"age\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "age"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "dropColumn.client.zone",
+    "label": "Drop column \"zone\" from \"client\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "zone",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"zone\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "zone"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop column \"zone\"",
+        "sql": "ALTER TABLE \"public\".\"client\" DROP COLUMN \"zone\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"zone\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "zone"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.approximateAge",
+    "label": "Add column \"approximateAge\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "approximateAge",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"approximateAge\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "approximateAge"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"approximateAge\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"approximateAge\" int4"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"approximateAge\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "approximateAge"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.emergencyContacts",
+    "label": "Add column \"emergencyContacts\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "emergencyContacts",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"emergencyContacts\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "emergencyContacts"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"emergencyContacts\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"emergencyContacts\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"emergencyContacts\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "emergencyContacts"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.finalNotes",
+    "label": "Add column \"finalNotes\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "finalNotes",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"finalNotes\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "finalNotes"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"finalNotes\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"finalNotes\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"finalNotes\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "finalNotes"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.homeAccessConditions",
+    "label": "Add column \"homeAccessConditions\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "homeAccessConditions",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"homeAccessConditions\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "homeAccessConditions"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"homeAccessConditions\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"homeAccessConditions\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"homeAccessConditions\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "homeAccessConditions"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.homeSafetyConditions",
+    "label": "Add column \"homeSafetyConditions\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "homeSafetyConditions",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"homeSafetyConditions\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "homeSafetyConditions"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"homeSafetyConditions\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"homeSafetyConditions\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"homeSafetyConditions\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "homeSafetyConditions"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.homeSafetyNotes",
+    "label": "Add column \"homeSafetyNotes\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "homeSafetyNotes",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"homeSafetyNotes\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "homeSafetyNotes"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"homeSafetyNotes\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"homeSafetyNotes\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"homeSafetyNotes\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "homeSafetyNotes"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.independenceNotes",
+    "label": "Add column \"independenceNotes\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "independenceNotes",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"independenceNotes\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "independenceNotes"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"independenceNotes\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"independenceNotes\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"independenceNotes\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "independenceNotes"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.independentActivities",
+    "label": "Add column \"independentActivities\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "independentActivities",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"independentActivities\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "independentActivities"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"independentActivities\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"independentActivities\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"independentActivities\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "independentActivities"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.knowsVisit",
+    "label": "Add column \"knowsVisit\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "knowsVisit",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"knowsVisit\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "knowsVisit"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"knowsVisit\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"knowsVisit\" bool DEFAULT false NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"knowsVisit\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "knowsVisit"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.medicationSupport",
+    "label": "Add column \"medicationSupport\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "medicationSupport",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"medicationSupport\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "medicationSupport"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"medicationSupport\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"medicationSupport\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"medicationSupport\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "medicationSupport"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.mobilityNeeds",
+    "label": "Add column \"mobilityNeeds\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "mobilityNeeds",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"mobilityNeeds\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "mobilityNeeds"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"mobilityNeeds\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"mobilityNeeds\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"mobilityNeeds\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "mobilityNeeds"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.mobilityNotes",
+    "label": "Add column \"mobilityNotes\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "mobilityNotes",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"mobilityNotes\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "mobilityNotes"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"mobilityNotes\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"mobilityNotes\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"mobilityNotes\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "mobilityNotes"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.nextContact",
+    "label": "Add column \"nextContact\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "nextContact",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"nextContact\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "nextContact"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"nextContact\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"nextContact\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"nextContact\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "nextContact"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.outingConditions",
+    "label": "Add column \"outingConditions\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "outingConditions",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"outingConditions\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "outingConditions"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"outingConditions\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"outingConditions\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"outingConditions\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "outingConditions"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.personalCareSupport",
+    "label": "Add column \"personalCareSupport\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "personalCareSupport",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"personalCareSupport\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "personalCareSupport"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"personalCareSupport\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"personalCareSupport\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"personalCareSupport\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "personalCareSupport"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.preferences",
+    "label": "Add column \"preferences\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "preferences",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"preferences\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "preferences"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"preferences\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"preferences\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"preferences\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "preferences"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.recommendedServices",
+    "label": "Add column \"recommendedServices\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "recommendedServices",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"recommendedServices\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "recommendedServices"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"recommendedServices\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"recommendedServices\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"recommendedServices\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "recommendedServices"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.requesterRelationship",
+    "label": "Add column \"requesterRelationship\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "requesterRelationship",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"requesterRelationship\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "requesterRelationship"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"requesterRelationship\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"requesterRelationship\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"requesterRelationship\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "requesterRelationship"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.transportPlan",
+    "label": "Add column \"transportPlan\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "transportPlan",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"transportPlan\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "transportPlan"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"transportPlan\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"transportPlan\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"transportPlan\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "transportPlan"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.visitAgentName",
+    "label": "Add column \"visitAgentName\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "visitAgentName",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"visitAgentName\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitAgentName"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"visitAgentName\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"visitAgentName\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"visitAgentName\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitAgentName"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.visitConclusion",
+    "label": "Add column \"visitConclusion\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "visitConclusion",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"visitConclusion\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitConclusion"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"visitConclusion\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"visitConclusion\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"visitConclusion\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitConclusion"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.visitDate",
+    "label": "Add column \"visitDate\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "visitDate",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"visitDate\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitDate"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"visitDate\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"visitDate\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"visitDate\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitDate"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.visitLatitude",
+    "label": "Add column \"visitLatitude\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "visitLatitude",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"visitLatitude\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitLatitude"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"visitLatitude\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"visitLatitude\" float8"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"visitLatitude\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitLatitude"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.visitLocation",
+    "label": "Add column \"visitLocation\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "visitLocation",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"visitLocation\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitLocation"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"visitLocation\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"visitLocation\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"visitLocation\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitLocation"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.visitLongitude",
+    "label": "Add column \"visitLongitude\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "visitLongitude",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"visitLongitude\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitLongitude"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"visitLongitude\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"visitLongitude\" float8"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"visitLongitude\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitLongitude"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.client.visitTime",
+    "label": "Add column \"visitTime\" to \"client\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "visitTime",
+        "table": "client"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"visitTime\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitTime"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"visitTime\"",
+        "sql": "ALTER TABLE \"public\".\"client\" ADD COLUMN \"visitTime\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"visitTime\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "client",
+          "visitTime"
+        ]
+      }
+    ]
+  }
+]

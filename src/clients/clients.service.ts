@@ -1,11 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { db } from '../prisma/db.js';
 import type { CreateClientDto } from './dto/create-client.dto.js';
 
 @Injectable()
 export class ClientsService {
   async findAll() {
-    return await db.orm.public.Client.all();
+    return await db.orm.public.Client.select('id', 'fullName', 'phone', 'address', 'visitDate', 'visitTime', 'visitLocation', 'visitAgentName', 'createdAt')
+      .orderBy((client) => client.createdAt.desc()).all();
+  }
+
+  async findOne(id: string) {
+    const client = await db.orm.public.Client.first({ id });
+    if (!client) throw new NotFoundException('No se encontró el registro.');
+    return client;
   }
 
   async create(data: CreateClientDto) {

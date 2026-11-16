@@ -1,3 +1,32 @@
+# Con Buena Compañía · Backend CRM
+
+## Administrador y acceso
+
+La API protege todas las rutas de clientes con una sesión de administrador. La autenticación se almacena en las tablas `adminUser` y `adminSession` de Neon; las variables opcionales de Neon Auth del ejemplo anterior no intervienen en este acceso.
+
+1. Configura `DATABASE_URL` en `.env` (nunca en Git).
+2. Ejecuta `npm run contract:emit` y `npm exec -- prisma db migrate` antes de iniciar la versión nueva.
+3. Ejecuta `npm run admin:create` una sola vez. Crea el usuario `admin` con una contraseña aleatoria y obliga a cambiarla al primer ingreso. Guarda el acceso inicial en `.local/admin-initial-access.txt`, excluido de Git. Si el usuario ya existe, no lo modifica.
+4. Inicia con `npm run start:prod` después de `npm run build`.
+
+Opcionalmente puedes configurar `CRM_ADMIN_USERNAME` y `CRM_ADMIN_PASSWORD` solo al ejecutar el script de creación. No hay endpoint público para crear administradores. El script no restablece contraseñas existentes.
+
+Las contraseñas se derivan con scrypt y sal individual. La base de datos solo almacena el hash del token de sesión, con caducidad de ocho horas. Las cookies son HttpOnly, SameSite=Lax y Secure en producción. Cambiar la contraseña o cerrar sesión revoca las sesiones correspondientes. El usuario se bloquea temporalmente tras cinco intentos fallidos; hay además un límite por IP en cada proceso. Para despliegues con muchas réplicas, complementa el límite por IP con un limitador compartido en la infraestructura.
+
+## Frontend y despliegue
+
+Configura `CRM_ALLOWED_ORIGINS` con los dominios permitidos separados por coma y usa `NODE_ENV=production` al desplegar. El frontend de Vercel debe configurar `BACKEND_URL` y usar su proxy `/api` para conservar cookies del mismo sitio. Todas las escrituras requieren el encabezado `X-CRM-Request: 1`. La API devuelve `Cache-Control: no-store`.
+
+Rutas: `POST /auth/login`, `GET /auth/session`, `POST /auth/change-password`, `POST /auth/logout`, `GET /clients`, `GET /clients/:id` y `POST /clients`. El listado devuelve datos de resumen; la ficha individual devuelve el informe completo. Al cambiar la contraseña inicial, la API habilita el acceso a clientes.
+
+La migración `baseline_existing_clients` reconstruye en disco la historia del esquema anterior, que ya se había aplicado por actualización directa. El marcador de la base actual está después de ese cambio: la migración nueva de administrador solo añade dos tablas, sus claves e índice; no elimina ni modifica registros de clientes.
+
+## Pruebas del CRM
+
+`npm run test:crm` compila y prueba el hash de contraseñas. Para ejecutar también la integración real, establece `CRM_RUN_DB_TESTS=1` y ejecuta el mismo comando. Esa prueba crea un usuario y una visita QA con identificadores únicos, valida acceso no autorizado, cambio obligatorio de contraseña, cookies, guardado, consulta, revocación, caducidad y bloqueo. Al terminar elimina exclusivamente los registros QA creados por la prueba.
+
+---
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>

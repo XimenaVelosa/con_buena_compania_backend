@@ -34,9 +34,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'4dfb47d7aa40067400a27eef9b4a72923f2c5ac970732bda61a88f8d303d6144'>;
+  StorageHashBase<'f228a003e95d96719122fa91c7f8ff4800334b6633208e51ad9c145721e8166f'>;
 export type ExecutionHash =
-  ExecutionHashBase<'34e9a6e3fc876ddbad9c4eb777c3b114d7f8c8ea3e029906fb6ae6733b0dcad0'>;
+  ExecutionHashBase<'8daafdef253f264facd37401706fd2fe3a10c52ed020e6f042adc236475058e2'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -242,6 +242,23 @@ type DefaultLiteralValue<CodecId extends string, Encoded> = CodecId extends keyo
 
 export type FieldOutputTypes = {
   readonly public: {
+    readonly AdminSession: {
+      readonly id: CodecTypes['pg/uuid@1']['output'];
+      readonly tokenHash: CodecTypes['pg/text@1']['output'];
+      readonly userId: CodecTypes['pg/uuid@1']['output'];
+      readonly expiresAt: CodecTypes['pg/text@1']['output'];
+    };
+    readonly AdminUser: {
+      readonly id: CodecTypes['pg/uuid@1']['output'];
+      readonly username: CodecTypes['pg/text@1']['output'];
+      readonly displayName: CodecTypes['pg/text@1']['output'];
+      readonly passwordHash: CodecTypes['pg/text@1']['output'];
+      readonly role: CodecTypes['pg/text@1']['output'];
+      readonly mustChangePassword: CodecTypes['pg/bool@1']['output'];
+      readonly failedLoginAttempts: CodecTypes['pg/int4@1']['output'];
+      readonly lockedUntil: CodecTypes['pg/text@1']['output'] | null;
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    };
     readonly Client: {
       readonly id: CodecTypes['pg/uuid@1']['output'];
       readonly visitDate: CodecTypes['pg/text@1']['output'] | null;
@@ -282,6 +299,23 @@ export type FieldOutputTypes = {
 };
 export type FieldInputTypes = {
   readonly public: {
+    readonly AdminSession: {
+      readonly id: CodecTypes['pg/uuid@1']['input'];
+      readonly tokenHash: CodecTypes['pg/text@1']['input'];
+      readonly userId: CodecTypes['pg/uuid@1']['input'];
+      readonly expiresAt: CodecTypes['pg/text@1']['input'];
+    };
+    readonly AdminUser: {
+      readonly id: CodecTypes['pg/uuid@1']['input'];
+      readonly username: CodecTypes['pg/text@1']['input'];
+      readonly displayName: CodecTypes['pg/text@1']['input'];
+      readonly passwordHash: CodecTypes['pg/text@1']['input'];
+      readonly role: CodecTypes['pg/text@1']['input'];
+      readonly mustChangePassword: CodecTypes['pg/bool@1']['input'];
+      readonly failedLoginAttempts: CodecTypes['pg/int4@1']['input'];
+      readonly lockedUntil: CodecTypes['pg/text@1']['input'] | null;
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+    };
     readonly Client: {
       readonly id: CodecTypes['pg/uuid@1']['input'];
       readonly visitDate: CodecTypes['pg/text@1']['input'] | null;
@@ -322,6 +356,23 @@ export type FieldInputTypes = {
 };
 export type StorageColumnTypes = {
   readonly public: {
+    readonly adminSession: {
+      readonly expiresAt: CodecTypes['pg/text@1']['output'];
+      readonly id: CodecTypes['pg/uuid@1']['output'];
+      readonly tokenHash: CodecTypes['pg/text@1']['output'];
+      readonly userId: CodecTypes['pg/uuid@1']['output'];
+    };
+    readonly adminUser: {
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly displayName: CodecTypes['pg/text@1']['output'];
+      readonly failedLoginAttempts: CodecTypes['pg/int4@1']['output'];
+      readonly id: CodecTypes['pg/uuid@1']['output'];
+      readonly lockedUntil: CodecTypes['pg/text@1']['output'] | null;
+      readonly mustChangePassword: CodecTypes['pg/bool@1']['output'];
+      readonly passwordHash: CodecTypes['pg/text@1']['output'];
+      readonly role: CodecTypes['pg/text@1']['output'];
+      readonly username: CodecTypes['pg/text@1']['output'];
+    };
     readonly client: {
       readonly address: CodecTypes['pg/text@1']['output'] | null;
       readonly approximateAge: CodecTypes['pg/int4@1']['output'] | null;
@@ -362,6 +413,23 @@ export type StorageColumnTypes = {
 };
 export type StorageColumnInputTypes = {
   readonly public: {
+    readonly adminSession: {
+      readonly expiresAt: CodecTypes['pg/text@1']['input'];
+      readonly id: CodecTypes['pg/uuid@1']['input'];
+      readonly tokenHash: CodecTypes['pg/text@1']['input'];
+      readonly userId: CodecTypes['pg/uuid@1']['input'];
+    };
+    readonly adminUser: {
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly displayName: CodecTypes['pg/text@1']['input'];
+      readonly failedLoginAttempts: CodecTypes['pg/int4@1']['input'];
+      readonly id: CodecTypes['pg/uuid@1']['input'];
+      readonly lockedUntil: CodecTypes['pg/text@1']['input'] | null;
+      readonly mustChangePassword: CodecTypes['pg/bool@1']['input'];
+      readonly passwordHash: CodecTypes['pg/text@1']['input'];
+      readonly role: CodecTypes['pg/text@1']['input'];
+      readonly username: CodecTypes['pg/text@1']['input'];
+    };
     readonly client: {
       readonly address: CodecTypes['pg/text@1']['input'] | null;
       readonly approximateAge: CodecTypes['pg/int4@1']['input'] | null;
@@ -402,6 +470,26 @@ export type StorageColumnInputTypes = {
 };
 
 export namespace Models {
+  export type public_AdminUser = {
+    id: CodecTypes['pg/uuid@1']['output'];
+    username: CodecTypes['pg/text@1']['output'];
+    displayName: CodecTypes['pg/text@1']['output'];
+    passwordHash: CodecTypes['pg/text@1']['output'];
+    role: CodecTypes['pg/text@1']['output'];
+    mustChangePassword: CodecTypes['pg/bool@1']['output'];
+    failedLoginAttempts: CodecTypes['pg/int4@1']['output'];
+    lockedUntil: CodecTypes['pg/text@1']['output'] | null;
+    createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    readonly [RelationKeys]?: never;
+  };
+  export type public_AdminSession = {
+    id: CodecTypes['pg/uuid@1']['output'];
+    tokenHash: CodecTypes['pg/text@1']['output'];
+    userId: CodecTypes['pg/uuid@1']['output'];
+    expiresAt: CodecTypes['pg/text@1']['output'];
+    user: public_AdminUser;
+    readonly [RelationKeys]?: 'user';
+  };
   export type public_Client = {
     id: CodecTypes['pg/uuid@1']['output'];
     visitDate: CodecTypes['pg/text@1']['output'] | null;
@@ -443,6 +531,8 @@ export namespace Models {
 
 export declare const models: {
   public: {
+    AdminUser: Models.public_AdminUser;
+    AdminSession: Models.public_AdminSession;
     Client: Models.public_Client;
   };
 };
@@ -465,6 +555,120 @@ type ContractBase = Omit<
         readonly kind: 'postgres-schema';
         readonly entries: {
           readonly table: {
+            readonly adminSession: {
+              columns: {
+                readonly id: {
+                  readonly nativeType: 'uuid';
+                  readonly codecId: 'pg/uuid@1';
+                  readonly nullable: false;
+                };
+                readonly tokenHash: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly userId: {
+                  readonly nativeType: 'uuid';
+                  readonly codecId: 'pg/uuid@1';
+                  readonly nullable: false;
+                };
+                readonly expiresAt: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [{ readonly columns: readonly ['tokenHash'] }];
+              indexes: readonly [
+                {
+                  readonly name: 'adminSession_userId_idx_a489d58a';
+                  readonly prefix: 'adminSession_userId_idx';
+                  readonly columns: readonly ['userId'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [
+                {
+                  readonly source: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'adminSession';
+                    readonly columns: readonly ['userId'];
+                  };
+                  readonly target: {
+                    readonly namespaceId: 'public' & NamespaceId;
+                    readonly tableName: 'adminUser';
+                    readonly columns: readonly ['id'];
+                  };
+                },
+              ];
+            };
+            readonly adminUser: {
+              columns: {
+                readonly id: {
+                  readonly nativeType: 'uuid';
+                  readonly codecId: 'pg/uuid@1';
+                  readonly nullable: false;
+                };
+                readonly username: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly displayName: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly passwordHash: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly role: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/text@1', 'admin'>;
+                  };
+                };
+                readonly mustChangePassword: {
+                  readonly nativeType: 'bool';
+                  readonly codecId: 'pg/bool@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/bool@1', true>;
+                  };
+                };
+                readonly failedLoginAttempts: {
+                  readonly nativeType: 'int4';
+                  readonly codecId: 'pg/int4@1';
+                  readonly nullable: false;
+                  readonly default: {
+                    readonly kind: 'literal';
+                    readonly value: DefaultLiteralValue<'pg/int4@1', 0>;
+                  };
+                };
+                readonly lockedUntil: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly createdAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [{ readonly columns: readonly ['username'] }];
+              indexes: readonly [];
+              foreignKeys: readonly [];
+            };
             readonly client: {
               columns: {
                 readonly id: {
@@ -659,12 +863,120 @@ type ContractBase = Omit<
   readonly target: 'postgres';
   readonly targetFamily: 'sql';
   readonly roots: {
+    readonly adminUser: { readonly namespace: 'public' & NamespaceId; readonly model: 'AdminUser' };
+    readonly adminSession: {
+      readonly namespace: 'public' & NamespaceId;
+      readonly model: 'AdminSession';
+    };
     readonly client: { readonly namespace: 'public' & NamespaceId; readonly model: 'Client' };
   };
   readonly domain: {
     readonly namespaces: {
       readonly public: {
         readonly models: {
+          readonly AdminSession: {
+            readonly fields: {
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
+              };
+              readonly tokenHash: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly userId: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
+              };
+              readonly expiresAt: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+            };
+            readonly relations: {
+              readonly user: {
+                readonly to: {
+                  readonly namespace: 'public' & NamespaceId;
+                  readonly model: 'AdminUser';
+                };
+                readonly cardinality: 'N:1';
+                readonly nullable: false;
+                readonly on: {
+                  readonly localFields: readonly ['userId'];
+                  readonly targetFields: readonly ['id'];
+                };
+              };
+            };
+            readonly storage: {
+              readonly table: 'adminSession';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly id: { readonly column: 'id' };
+                readonly tokenHash: { readonly column: 'tokenHash' };
+                readonly userId: { readonly column: 'userId' };
+                readonly expiresAt: { readonly column: 'expiresAt' };
+              };
+            };
+          };
+          readonly AdminUser: {
+            readonly fields: {
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
+              };
+              readonly username: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly displayName: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly passwordHash: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly role: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly mustChangePassword: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
+              readonly failedLoginAttempts: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
+              };
+              readonly lockedUntil: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'adminUser';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly id: { readonly column: 'id' };
+                readonly username: { readonly column: 'username' };
+                readonly displayName: { readonly column: 'displayName' };
+                readonly passwordHash: { readonly column: 'passwordHash' };
+                readonly role: { readonly column: 'role' };
+                readonly mustChangePassword: { readonly column: 'mustChangePassword' };
+                readonly failedLoginAttempts: { readonly column: 'failedLoginAttempts' };
+                readonly lockedUntil: { readonly column: 'lockedUntil' };
+                readonly createdAt: { readonly column: 'createdAt' };
+              };
+            };
+          };
           readonly Client: {
             readonly fields: {
               readonly id: {
@@ -879,6 +1191,22 @@ type ContractBase = Omit<
     readonly executionHash: ExecutionHash;
     readonly mutations: {
       readonly defaults: readonly [
+        {
+          readonly ref: {
+            readonly namespace: 'public';
+            readonly table: 'adminSession';
+            readonly column: 'id';
+          };
+          readonly onCreate: { readonly kind: 'generator'; readonly id: 'uuidv4' };
+        },
+        {
+          readonly ref: {
+            readonly namespace: 'public';
+            readonly table: 'adminUser';
+            readonly column: 'id';
+          };
+          readonly onCreate: { readonly kind: 'generator'; readonly id: 'uuidv4' };
+        },
         {
           readonly ref: {
             readonly namespace: 'public';
