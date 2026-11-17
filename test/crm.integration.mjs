@@ -55,12 +55,16 @@ test('CRM authenticated workflow against configured database (isolated QA record
     const newCookie = changed.headers['set-cookie'][0].split(';')[0];
     assert.equal(changed.body.user.mustChangePassword, false);
     await request(server).get('/clients').set('Cookie', cookie).expect(401);
-    await post('/clients', { fullName: `CRM QA ${username}`, visitDate: '2026-11-16', visitLocation: 'QA address', visitLatitude: 4.6, visitLongitude: -74.0, independentActivities: '["Lectura"]' }, newCookie).expect(201).then((result) => { clientId = result.body.id; });
+    await post('/clients', { fullName: `CRM QA ${username}`, visitDate: '2026-11-16', visitLocation: 'QA address', visitLatitude: 4.6, visitLongitude: -74.0, independentActivities: '["Lectura"]', payerName: 'Acudiente QA', guardianIdNumber: '001234567', guardianAddress: 'Calle de prueba 10', guardianPhone: '+57 300 123 4567' }, newCookie).expect(201).then((result) => { clientId = result.body.id; });
     const list = await request(server).get('/clients').set('Cookie', newCookie).expect(200);
     assert.ok(list.body.some((row) => row.id === clientId));
     const detail = await request(server).get(`/clients/${clientId}`).set('Cookie', newCookie).expect(200);
     assert.equal(detail.body.visitLatitude, 4.6);
     assert.equal(detail.body.independentActivities, '["Lectura"]');
+    assert.equal(detail.body.payerName, 'Acudiente QA');
+    assert.equal(detail.body.guardianIdNumber, '001234567');
+    assert.equal(detail.body.guardianAddress, 'Calle de prueba 10');
+    assert.equal(detail.body.guardianPhone, '+57 300 123 4567');
     await request(server).get('/clients/not-a-uuid').set('Cookie', newCookie).expect(400);
     await post('/auth/logout', {}, newCookie).expect(200);
     await request(server).get('/clients').set('Cookie', newCookie).expect(401);

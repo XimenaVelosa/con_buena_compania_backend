@@ -39,10 +39,13 @@ model Client {
   phone                 String?
   address               String?
 
-  // Personas relacionadas con la solicitud y el pago
+  // Personas relacionadas con la solicitud y el acudiente
   requesterName         String?
   requesterRelationship String?
-  payerName             String?
+  payerName             String? // Nombre del acudiente; se conserva la clave histórica.
+  guardianIdNumber      String?
+  guardianAddress       String?
+  guardianPhone         String?
   knowsVisit            Boolean @default(false)
 
   // Levantamiento de necesidades y condiciones de acompañamiento
