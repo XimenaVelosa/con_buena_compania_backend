@@ -7,7 +7,8 @@ export class AdminGuard implements CanActivate {
   constructor(private readonly auth: AuthService) {}
 
   async canActivate(context: ExecutionContext) {
-    await this.auth.requireUser(context.switchToHttp().getRequest<Request>());
+    const request = context.switchToHttp().getRequest<Request & { adminUser?: { id: string } }>();
+    request.adminUser = await this.auth.requireUser(request);
     return true;
   }
 }

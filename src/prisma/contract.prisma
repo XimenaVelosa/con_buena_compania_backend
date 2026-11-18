@@ -47,6 +47,8 @@ model Client {
   guardianAddress       String?
   guardianPhone         String?
   knowsVisit            Boolean @default(false)
+  // Evidencia de autorización: texto, versión, decisiones, fecha y operador.
+  dataAuthorization     String?
 
   // Levantamiento de necesidades y condiciones de acompañamiento
   mobilityNeeds         String?

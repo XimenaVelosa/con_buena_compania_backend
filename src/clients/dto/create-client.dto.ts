@@ -1,6 +1,13 @@
-import { IsBoolean, IsInt, IsNumber, IsOptional, IsString, MaxLength, Min } from 'class-validator';
+import { IsBoolean, IsDefined, IsInt, IsNumber, IsOptional, IsString, MaxLength, Min, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { DataAuthorizationDto } from './data-authorization.dto.js';
 
 export class CreateClientDto {
+  @IsDefined()
+  @ValidateNested()
+  @Type(() => DataAuthorizationDto)
+  authorization!: DataAuthorizationDto;
+
   @IsOptional()
   @IsString()
   visitDate?: string;

@@ -9,6 +9,45 @@ import { AppModule } from '../dist/app.module.js';
 import { db } from '../dist/prisma/db.js';
 import { hashPassword, verifyPassword } from '../dist/auth/password.js';
 import { configureSecurity } from '../dist/security.js';
+import { getPrivacyNotice, SENSITIVE_FIELDS } from '../dist/clients/privacy-notice.js';
+
+const privacyConfig = { CRM_PRIVACY_CONTROLLER: 'Responsable QA', CRM_PRIVACY_EMAIL: 'privacidad@example.test', CRM_PRIVACY_PHONE: '3000000000', CRM_PRIVACY_POLICY_URL: 'https://example.test/privacidad' };
+function configurePrivacy() {
+  const previous = Object.fromEntries(Object.keys(privacyConfig).map((key) => [key, process.env[key]]));
+  Object.assign(process.env, privacyConfig);
+  return () => {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  };
+}
+
+test('Privacy notice binds its exact text and contact details to the hash and can be published without a policy', () => {
+  const restore = configurePrivacy();
+  try {
+    const original = getPrivacyNotice();
+    assert.equal(original.configured, true);
+    assert.equal(getPrivacyNotice().hash, original.hash);
+    assert.ok(original.text.includes(privacyConfig.CRM_PRIVACY_CONTROLLER));
+    assert.ok(original.text.includes(privacyConfig.CRM_PRIVACY_EMAIL));
+    assert.ok(original.text.includes(privacyConfig.CRM_PRIVACY_PHONE));
+    process.env.CRM_PRIVACY_PHONE = '';
+    assert.equal(getPrivacyNotice().configured, false);
+    assert.notEqual(getPrivacyNotice().hash, original.hash);
+    process.env.CRM_PRIVACY_PHONE = privacyConfig.CRM_PRIVACY_PHONE;
+    process.env.CRM_PRIVACY_POLICY_URL = 'http://example.test/insecure';
+    assert.equal(getPrivacyNotice().configured, false);
+    assert.equal(getPrivacyNotice().policyUrl, '');
+    for (const key of Object.keys(privacyConfig)) delete process.env[key];
+    const published = getPrivacyNotice();
+    assert.equal(published.configured, false);
+    assert.equal(published.controller, 'Con Buena Compañía');
+    assert.equal(published.policyUrl, '');
+    assert.ok(published.text.includes('La política de tratamiento de datos aún no está publicada'));
+    assert.ok(!published.text.includes('pendiente de informar'));
+  } finally { restore(); }
+});
 
 test('Password hashing: salted hashes, correct and incorrect passwords', async () => {
   const password = randomBytes(18).toString('base64url');
@@ -26,8 +65,9 @@ test('CRM authenticated workflow against configured database (isolated QA record
   const newPassword = randomBytes(18).toString('base64url');
   const emergencyContacts = JSON.stringify([{ type: 'guardian', fullName: 'Acudiente QA', idNumber: '001234567', address: 'Calle de prueba 10', phone: '+57 300 123 4567' }, { type: 'additional', fullName: 'Contacto QA', idNumber: '00098765', address: 'Otra dirección de prueba', phone: '+57 311 222 3344' }]);
   let userId;
-  let clientId;
+  const clientIds = [];
   let app;
+  const restorePrivacy = configurePrivacy();
   try {
     const user = await db.orm.public.AdminUser.create({ username, displayName: 'CRM QA', passwordHash: await hashPassword(initialPassword), mustChangePassword: true, role: 'admin' });
     userId = user.id;
@@ -41,6 +81,7 @@ test('CRM authenticated workflow against configured database (isolated QA record
       return cookie ? call.set('Cookie', cookie) : call;
     };
     await request(server).get('/clients').expect(401);
+    await request(server).get('/clients/privacy-notice').expect(401);
     await request(server).post('/auth/login').send({ username, password: initialPassword }).expect(403);
     await post('/auth/login', { username, password: 'wrong' }).expect(401);
     const login = await post('/auth/login', { username, password: initialPassword }).expect(200);
@@ -56,9 +97,34 @@ test('CRM authenticated workflow against configured database (isolated QA record
     const newCookie = changed.headers['set-cookie'][0].split(';')[0];
     assert.equal(changed.body.user.mustChangePassword, false);
     await request(server).get('/clients').set('Cookie', cookie).expect(401);
-    await post('/clients', { fullName: `CRM QA ${username}`, visitDate: '2026-11-16', visitLocation: 'QA address', visitLatitude: 4.6, visitLongitude: -74.0, independentActivities: '["Lectura"]', payerName: 'Acudiente QA', guardianIdNumber: '001234567', guardianAddress: 'Calle de prueba 10', guardianPhone: '+57 300 123 4567', emergencyContacts }, newCookie).expect(201).then((result) => { clientId = result.body.id; });
+    const notice = await request(server).get('/clients/privacy-notice').set('Cookie', newCookie).expect(200);
+    assert.equal(notice.body.configured, true);
+    const authorization = { personalData: true, truthfulness: true, sensitiveData: false, signerName: 'Titular QA', signerRole: 'titular', version: notice.body.version, noticeHash: notice.body.hash };
+    const payload = { fullName: `CRM QA ${username}`, visitDate: '2026-11-16', visitLocation: 'QA address', visitLatitude: 4.6, visitLongitude: -74.0, independentActivities: '["Lectura"]', payerName: 'Acudiente QA', guardianIdNumber: '001234567', guardianAddress: 'Calle de prueba 10', guardianPhone: '+57 300 123 4567', emergencyContacts };
+    async function reject(body) {
+      const result = await post('/clients', body, newCookie);
+      if (result.status === 201) clientIds.push(result.body.id);
+      assert.equal(result.status, 400, JSON.stringify(result.body));
+    }
+    await reject(payload);
+    await reject({ ...payload, authorization: { ...authorization, personalData: false } });
+    await reject({ ...payload, authorization: { ...authorization, truthfulness: false } });
+    await reject({ ...payload, authorization: { ...authorization, version: 'old-version' } });
+    await reject({ ...payload, authorization: { ...authorization, noticeHash: '0'.repeat(64) } });
+    await reject({ ...payload, authorization: { ...authorization, recordedAt: '2000-01-01T00:00:00Z' } });
+    await reject({ ...payload, authorization: { ...authorization, signerName: '  ' } });
+    await reject({ ...payload, authorization: { ...authorization, signerRole: 'representante' } });
+    for (const field of SENSITIVE_FIELDS) await reject({ ...payload, authorization, [field]: 'Información de salud QA' });
+    process.env.CRM_PRIVACY_EMAIL = '';
+    await reject({ ...payload, authorization });
+    process.env.CRM_PRIVACY_EMAIL = privacyConfig.CRM_PRIVACY_EMAIL;
+    const beforeSave = Date.now();
+    const saved = await post('/clients', { ...payload, authorization }, newCookie).expect(201);
+    const clientId = saved.body.id;
+    clientIds.push(clientId);
     const list = await request(server).get('/clients').set('Cookie', newCookie).expect(200);
     assert.ok(list.body.some((row) => row.id === clientId));
+    assert.equal(list.body.find((row) => row.id === clientId).dataAuthorization, undefined);
     const detail = await request(server).get(`/clients/${clientId}`).set('Cookie', newCookie).expect(200);
     assert.equal(detail.body.visitLatitude, 4.6);
     assert.equal(detail.body.independentActivities, '["Lectura"]');
@@ -67,6 +133,29 @@ test('CRM authenticated workflow against configured database (isolated QA record
     assert.equal(detail.body.guardianAddress, 'Calle de prueba 10');
     assert.equal(detail.body.guardianPhone, '+57 300 123 4567');
     assert.deepEqual(JSON.parse(detail.body.emergencyContacts), JSON.parse(emergencyContacts));
+    const evidence = JSON.parse(detail.body.dataAuthorization);
+    assert.equal(evidence.recordedBy, userId);
+    assert.ok(Date.parse(evidence.recordedAt) >= beforeSave && Date.parse(evidence.recordedAt) <= Date.now());
+    assert.equal(evidence.noticeHash, notice.body.hash);
+    assert.equal(evidence.noticeText, notice.body.text);
+    assert.equal(evidence.signerName, 'Titular QA');
+    assert.equal(evidence.sensitiveData, false);
+    assert.equal(detail.body.mobilityNotes, null);
+    const health = await post('/clients', { ...payload, authorization: { ...authorization, signerRole: 'representante', representativeBasis: 'Poder de representación de prueba QA', sensitiveData: true }, mobilityNotes: 'Información voluntaria QA' }, newCookie).expect(201);
+    clientIds.push(health.body.id);
+    assert.equal(health.body.mobilityNotes, 'Información voluntaria QA');
+    assert.equal(JSON.parse(health.body.dataAuthorization).sensitiveData, true);
+    for (const key of Object.keys(privacyConfig)) delete process.env[key];
+    const publishedNotice = await request(server).get('/clients/privacy-notice').set('Cookie', newCookie).expect(200);
+    assert.equal(publishedNotice.body.configured, false);
+    assert.equal(publishedNotice.body.policyUrl, '');
+    const published = await post('/clients', { ...payload, authorization: { ...authorization, version: publishedNotice.body.version, noticeHash: publishedNotice.body.hash } }, newCookie).expect(201);
+    clientIds.push(published.body.id);
+    const publishedEvidence = JSON.parse(published.body.dataAuthorization);
+    assert.equal(publishedEvidence.controller, 'Con Buena Compañía');
+    assert.equal(publishedEvidence.contactDetailsComplete, false);
+    assert.equal(publishedEvidence.policyUrl, '');
+    assert.equal(publishedEvidence.noticeText, publishedNotice.body.text);
     await request(server).get('/clients/not-a-uuid').set('Cookie', newCookie).expect(400);
     await post('/auth/logout', {}, newCookie).expect(200);
     await request(server).get('/clients').set('Cookie', newCookie).expect(401);
@@ -79,7 +168,8 @@ test('CRM authenticated workflow against configured database (isolated QA record
     assert.ok(Date.parse(locked.lockedUntil) > Date.now());
     assert.equal(await verifyPassword(newPassword, locked.passwordHash), true);
   } finally {
-    if (clientId) await db.orm.public.Client.where({ id: clientId }).delete();
+    restorePrivacy();
+    for (const id of clientIds) await db.orm.public.Client.where({ id }).delete();
     if (userId) await db.orm.public.AdminUser.where({ id: userId }).delete();
     if (app) await app.close();
     await db.close();

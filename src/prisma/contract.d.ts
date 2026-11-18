@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'43c053d19341cec2d634f8a9e8bbe7585dba23b27565f8dffd8e45855377c005'>;
+  StorageHashBase<'5dd10368119005a27582c1cad1520dc85b2358c2c1aa194b1ece2b27468f8d07'>;
 export type ExecutionHash =
   ExecutionHashBase<'8daafdef253f264facd37401706fd2fe3a10c52ed020e6f042adc236475058e2'>;
 export type ProfileHash =
@@ -278,6 +278,7 @@ export type FieldOutputTypes = {
       readonly guardianAddress: CodecTypes['pg/text@1']['output'] | null;
       readonly guardianPhone: CodecTypes['pg/text@1']['output'] | null;
       readonly knowsVisit: CodecTypes['pg/bool@1']['output'];
+      readonly dataAuthorization: CodecTypes['pg/text@1']['output'] | null;
       readonly mobilityNeeds: CodecTypes['pg/text@1']['output'] | null;
       readonly mobilityNotes: CodecTypes['pg/text@1']['output'] | null;
       readonly independentActivities: CodecTypes['pg/text@1']['output'] | null;
@@ -338,6 +339,7 @@ export type FieldInputTypes = {
       readonly guardianAddress: CodecTypes['pg/text@1']['input'] | null;
       readonly guardianPhone: CodecTypes['pg/text@1']['input'] | null;
       readonly knowsVisit: CodecTypes['pg/bool@1']['input'];
+      readonly dataAuthorization: CodecTypes['pg/text@1']['input'] | null;
       readonly mobilityNeeds: CodecTypes['pg/text@1']['input'] | null;
       readonly mobilityNotes: CodecTypes['pg/text@1']['input'] | null;
       readonly independentActivities: CodecTypes['pg/text@1']['input'] | null;
@@ -383,6 +385,7 @@ export type StorageColumnTypes = {
       readonly address: CodecTypes['pg/text@1']['output'] | null;
       readonly approximateAge: CodecTypes['pg/int4@1']['output'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly dataAuthorization: CodecTypes['pg/text@1']['output'] | null;
       readonly emergencyContacts: CodecTypes['pg/text@1']['output'] | null;
       readonly finalNotes: CodecTypes['pg/text@1']['output'] | null;
       readonly fullName: CodecTypes['pg/text@1']['output'];
@@ -443,6 +446,7 @@ export type StorageColumnInputTypes = {
       readonly address: CodecTypes['pg/text@1']['input'] | null;
       readonly approximateAge: CodecTypes['pg/int4@1']['input'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly dataAuthorization: CodecTypes['pg/text@1']['input'] | null;
       readonly emergencyContacts: CodecTypes['pg/text@1']['input'] | null;
       readonly finalNotes: CodecTypes['pg/text@1']['input'] | null;
       readonly fullName: CodecTypes['pg/text@1']['input'];
@@ -521,6 +525,7 @@ export namespace Models {
     guardianAddress: CodecTypes['pg/text@1']['output'] | null;
     guardianPhone: CodecTypes['pg/text@1']['output'] | null;
     knowsVisit: CodecTypes['pg/bool@1']['output'];
+    dataAuthorization: CodecTypes['pg/text@1']['output'] | null;
     mobilityNeeds: CodecTypes['pg/text@1']['output'] | null;
     mobilityNotes: CodecTypes['pg/text@1']['output'] | null;
     independentActivities: CodecTypes['pg/text@1']['output'] | null;
@@ -779,6 +784,11 @@ type ContractBase = Omit<
                     readonly kind: 'literal';
                     readonly value: DefaultLiteralValue<'pg/bool@1', false>;
                   };
+                };
+                readonly dataAuthorization: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
                 };
                 readonly mobilityNeeds: {
                   readonly nativeType: 'text';
@@ -1081,6 +1091,10 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
               };
+              readonly dataAuthorization: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly mobilityNeeds: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -1187,6 +1201,7 @@ type ContractBase = Omit<
                 readonly guardianAddress: { readonly column: 'guardianAddress' };
                 readonly guardianPhone: { readonly column: 'guardianPhone' };
                 readonly knowsVisit: { readonly column: 'knowsVisit' };
+                readonly dataAuthorization: { readonly column: 'dataAuthorization' };
                 readonly mobilityNeeds: { readonly column: 'mobilityNeeds' };
                 readonly mobilityNotes: { readonly column: 'mobilityNotes' };
                 readonly independentActivities: { readonly column: 'independentActivities' };

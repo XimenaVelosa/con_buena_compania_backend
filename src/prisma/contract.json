@@ -213,6 +213,13 @@
                   "kind": "scalar"
                 }
               },
+              "dataAuthorization": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "emergencyContacts": {
                 "nullable": true,
                 "type": {
@@ -463,6 +470,9 @@
                 },
                 "createdAt": {
                   "column": "createdAt"
+                },
+                "dataAuthorization": {
+                  "column": "dataAuthorization"
                 },
                 "emergencyContacts": {
                   "column": "emergencyContacts"
@@ -745,6 +755,11 @@
                   "nativeType": "timestamptz",
                   "nullable": false
                 },
+                "dataAuthorization": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "emergencyContacts": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
@@ -935,7 +950,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "43c053d19341cec2d634f8a9e8bbe7585dba23b27565f8dffd8e45855377c005"
+    "storageHash": "5dd10368119005a27582c1cad1520dc85b2358c2c1aa194b1ece2b27468f8d07"
   },
   "execution": {
     "executionHash": "8daafdef253f264facd37401706fd2fe3a10c52ed020e6f042adc236475058e2",
