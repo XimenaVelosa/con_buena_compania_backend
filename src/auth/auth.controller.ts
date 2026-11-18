@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpCode, Post, Req, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { AuthService, SESSION_COOKIE, SESSION_SECONDS } from './auth.service.js';
-import { ChangePasswordDto, LoginDto } from './auth.dto.js';
+import { LoginDto } from './auth.dto.js';
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +21,7 @@ export class AuthController {
 
   @Get('session')
   async session(@Req() request: Request) {
-    return { user: await this.auth.requireUser(request, true) };
+    return { user: await this.auth.requireUser(request) };
   }
 
   @Post('logout')
@@ -30,13 +30,5 @@ export class AuthController {
     await this.auth.logout(request);
     response.clearCookie(SESSION_COOKIE, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', path: '/' });
     return { ok: true };
-  }
-
-  @Post('change-password')
-  @HttpCode(200)
-  async changePassword(@Body() data: ChangePasswordDto, @Req() request: Request, @Res({ passthrough: true }) response: Response) {
-    const result = await this.auth.changePassword(request, data.currentPassword, data.newPassword);
-    this.setCookie(response, result.token);
-    return { user: result.user };
   }
 }

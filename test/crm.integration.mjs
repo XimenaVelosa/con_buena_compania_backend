@@ -2,6 +2,10 @@ import 'dotenv/config';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes, createHash } from 'node:crypto';
+import { execFile } from 'node:child_process';
+import { readFile, unlink } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import { promisify } from 'node:util';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import request from 'supertest';
@@ -10,6 +14,9 @@ import { db } from '../dist/prisma/db.js';
 import { hashPassword, verifyPassword } from '../dist/auth/password.js';
 import { configureSecurity } from '../dist/security.js';
 import { getPrivacyNotice, SENSITIVE_FIELDS } from '../dist/clients/privacy-notice.js';
+import { setAdminPassword } from '../scripts/set-admin-password.mjs';
+
+const execFileAsync = promisify(execFile);
 
 const privacyConfig = { CRM_PRIVACY_CONTROLLER: 'Responsable QA', CRM_PRIVACY_EMAIL: 'privacidad@example.test', CRM_PRIVACY_PHONE: '3000000000', CRM_PRIVACY_POLICY_URL: 'https://example.test/privacidad' };
 function configurePrivacy() {
@@ -59,12 +66,30 @@ test('Password hashing: salted hashes, correct and incorrect passwords', async (
   assert.equal(await verifyPassword(password, 'malformed'), false);
 });
 
+test('Password changes are unavailable over HTTP, including authenticated requests', async () => {
+  const app = await NestFactory.create(AppModule, { logger: false });
+  try {
+    configureSecurity(app);
+    await app.init();
+    await request(app.getHttpServer()).post('/auth/change-password').set('X-CRM-Request', '1').send({ currentPassword: 'old', newPassword: 'replacement-password' }).expect(404);
+    await request(app.getHttpServer()).post('/auth/change-password').set('X-CRM-Request', '1').set('Cookie', `cbc_admin_session=${randomBytes(32).toString('hex')}`).send({ currentPassword: 'old', newPassword: 'replacement-password' }).expect(404);
+  } finally { await app.close(); }
+});
+
+test('Administrative password validation rejects invalid input before a database write', async () => {
+  const password = randomBytes(18).toString('base64url');
+  for (const [username, value] of [['../admin', password], ['admin', 'short'], ['admin', ' '.repeat(16)], ['admin', 'x'.repeat(129)]]) {
+    await assert.rejects(setAdminPassword(null, username, value));
+  }
+});
+
 test('CRM authenticated workflow against configured database (isolated QA records)', { skip: process.env.CRM_RUN_DB_TESTS !== '1' }, async () => {
   const username = `qa_${randomBytes(8).toString('hex')}`;
   const initialPassword = randomBytes(18).toString('base64url');
   const newPassword = randomBytes(18).toString('base64url');
   const emergencyContacts = JSON.stringify([{ type: 'guardian', fullName: 'Acudiente QA', idNumber: '001234567', address: 'Calle de prueba 10', phone: '+57 300 123 4567' }, { type: 'additional', fullName: 'Contacto QA', idNumber: '00098765', address: 'Otra dirección de prueba', phone: '+57 311 222 3344' }]);
   let userId;
+  let accessFile;
   const clientIds = [];
   let app;
   const restorePrivacy = configurePrivacy();
@@ -85,19 +110,32 @@ test('CRM authenticated workflow against configured database (isolated QA record
     await request(server).get('/clients/activity-options').expect(401);
     await request(server).post('/auth/login').send({ username, password: initialPassword }).expect(403);
     await post('/auth/login', { username, password: 'wrong' }).expect(401);
-    const login = await post('/auth/login', { username, password: initialPassword }).expect(200);
-    const cookie = login.headers['set-cookie'][0].split(';')[0];
+    const pending = await post('/auth/login', { username, password: initialPassword }).expect(403);
+    assert.ok(pending.body.message.includes('administrador debe actualizar'));
+    assert.equal(pending.headers['set-cookie'], undefined);
+    const legacyToken = randomBytes(32).toString('hex');
+    await db.orm.public.AdminSession.create({ userId, tokenHash: createHash('sha256').update(legacyToken).digest('hex'), expiresAt: new Date(Date.now() + 3600000).toISOString() });
+    const cookie = `cbc_admin_session=${legacyToken}`;
+    await request(server).get('/auth/session').set('Cookie', cookie).expect(403);
+    await request(server).get('/clients').set('Cookie', cookie).expect(403);
+    await post('/auth/change-password', { currentPassword: initialPassword, newPassword }, cookie).expect(404);
+    const result = await execFileAsync(process.execPath, ['scripts/set-admin-password.mjs', username], { cwd: resolve('.'), env: { ...process.env, CRM_ADMIN_PASSWORD: newPassword }, windowsHide: true, timeout: 30000 });
+    assert.ok(!result.stdout.includes(newPassword), 'The CLI does not print the password');
+    const delivered = /Acceso guardado en (.+)/.exec(result.stdout)?.[1].trim();
+    assert.ok(delivered);
+    assert.equal(dirname(delivered), resolve('.local'));
+    accessFile = delivered;
+    assert.ok((await readFile(accessFile, 'utf8')).includes(`Contraseña: ${newPassword}`));
+    await request(server).get('/auth/session').set('Cookie', cookie).expect(401);
+    await post('/auth/login', { username, password: initialPassword }).expect(401);
+    const login = await post('/auth/login', { username, password: newPassword }).expect(200);
+    const newCookie = login.headers['set-cookie'][0].split(';')[0];
     assert.match(login.headers['set-cookie'][0], /HttpOnly/i);
     assert.match(login.headers['set-cookie'][0], /SameSite=Lax/i);
-    assert.equal(login.body.user.mustChangePassword, true);
+    assert.equal(login.body.user.mustChangePassword, false);
     assert.equal(login.body.user.passwordHash, undefined);
     assert.equal(login.body.token, undefined);
-    await request(server).get('/clients').set('Cookie', cookie).expect(403);
-    await post('/auth/change-password', { currentPassword: initialPassword, newPassword: 'short' }, cookie).expect(400);
-    const changed = await post('/auth/change-password', { currentPassword: initialPassword, newPassword }, cookie).expect(200);
-    const newCookie = changed.headers['set-cookie'][0].split(';')[0];
-    assert.equal(changed.body.user.mustChangePassword, false);
-    await request(server).get('/clients').set('Cookie', cookie).expect(401);
+    await post('/auth/change-password', { currentPassword: newPassword, newPassword: initialPassword }, newCookie).expect(404);
     const notice = await request(server).get('/clients/privacy-notice').set('Cookie', newCookie).expect(200);
     assert.equal(notice.body.configured, true);
     const authorization = { personalData: true, truthfulness: true, sensitiveData: false, signerName: 'Titular QA', signerRole: 'titular', version: notice.body.version, noticeHash: notice.body.hash };
@@ -209,6 +247,7 @@ test('CRM authenticated workflow against configured database (isolated QA record
     assert.equal(await verifyPassword(newPassword, locked.passwordHash), true);
   } finally {
     restorePrivacy();
+    if (accessFile) await unlink(accessFile);
     for (const id of clientIds) await db.orm.public.Client.where({ id }).delete();
     if (userId) await db.orm.public.AdminUser.where({ id: userId }).delete();
     if (app) await app.close();

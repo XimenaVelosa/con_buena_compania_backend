@@ -22,6 +22,7 @@
     "postinstall": "prisma skills sync || exit 0",
     "contract:emit": "prisma contract emit",
     "admin:create": "npm run build && node scripts/create-admin.mjs",
+    "admin:password": "npm run build && node scripts/set-admin-password.mjs",
     "test:crm": "npm run build && node --test test/crm.integration.mjs"
   },
   "dependencies": {

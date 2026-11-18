@@ -17,9 +17,9 @@ try {
     const credentialsPath = resolve('.local/admin-initial-access.txt');
     await mkdir(resolve('.local'), { recursive: true });
     // Exclusive creation avoids overwriting an existing delivery file or leaving an inaccessible account.
-    await writeFile(credentialsPath, `Con Buena Compañía · CRM\nUsuario: ${username}\nContraseña inicial: ${password}\n\nCambia esta contraseña al primer ingreso. No subas este archivo a GitHub.\n`, { flag: 'wx', mode: 0o600 });
+    await writeFile(credentialsPath, `Con Buena Compañía · CRM\nUsuario: ${username}\nContraseña: ${password}\n\nLa contraseña se administra únicamente desde el backend. No subas este archivo a GitHub.\n`, { flag: 'wx', mode: 0o600 });
     try {
-      await db.orm.public.AdminUser.create({ username, displayName: 'Administración', passwordHash: await hashPassword(password), role: 'admin', mustChangePassword: true });
+      await db.orm.public.AdminUser.create({ username, displayName: 'Administración', passwordHash: await hashPassword(password), role: 'admin', mustChangePassword: false });
     } catch (error) {
       await unlink(credentialsPath);
       throw error;

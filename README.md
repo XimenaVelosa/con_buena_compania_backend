@@ -6,10 +6,12 @@ La API protege todas las rutas de clientes con una sesión de administrador. La 
 
 1. Configura `DATABASE_URL` en `.env` (nunca en Git).
 2. Ejecuta `npm run contract:emit` y `npm exec -- prisma db migrate` antes de iniciar la versión nueva.
-3. Ejecuta `npm run admin:create` una sola vez. Crea el usuario `admin` con una contraseña aleatoria y obliga a cambiarla al primer ingreso. Guarda el acceso inicial en `.local/admin-initial-access.txt`, excluido de Git. Si el usuario ya existe, no lo modifica.
+3. Ejecuta `npm run admin:create` una sola vez. Crea el usuario `admin` con una contraseña aleatoria administrada desde el backend, lista para ingresar. Guarda el acceso en `.local/admin-initial-access.txt`, excluido de Git. Si el usuario ya existe, no lo modifica.
 4. Inicia con `npm run start:prod` después de `npm run build`.
 
-Opcionalmente puedes configurar `CRM_ADMIN_USERNAME` y `CRM_ADMIN_PASSWORD` solo al ejecutar el script de creación. No hay endpoint público para crear administradores. El script no restablece contraseñas existentes.
+La creación y los cambios de contraseña se realizan únicamente desde código con acceso al backend y a su base de datos. Para actualizar una cuenta existente ejecuta `npm run admin:password -- admin` (reemplaza el último `admin` para otra cuenta). El comando genera una contraseña, guarda el acceso en un archivo nuevo `.local/admin-access-usuario-fecha-identificador.txt` excluido de Git, habilita el acceso de la cuenta y revoca todas sus sesiones anteriores. No muestra la contraseña en consola y no acepta contraseñas como argumentos. Los archivos de accesos anteriores dejan de contener la contraseña vigente.
+
+Opcionalmente puedes configurar `CRM_ADMIN_USERNAME` y `CRM_ADMIN_PASSWORD` solo en el entorno al ejecutar cualquiera de estos comandos; la contraseña debe tener de 12 a 128 caracteres. No hay endpoints para crear administradores ni para cambiar contraseñas. Las cuentas antiguas que aún tengan `mustChangePassword: true` requieren ejecutar `admin:password` antes de ingresar. El cambio de esta funcionalidad no altera automáticamente las credenciales ni las sesiones de las cuentas existentes.
 
 Las contraseñas se derivan con scrypt y sal individual. La base de datos solo almacena el hash del token de sesión, con caducidad de ocho horas. Las cookies son HttpOnly, SameSite=Lax y Secure en producción. Cambiar la contraseña o cerrar sesión revoca las sesiones correspondientes. El usuario se bloquea temporalmente tras cinco intentos fallidos; hay además un límite por IP en cada proceso. Para despliegues con muchas réplicas, complementa el límite por IP con un limitador compartido en la infraestructura.
 
@@ -17,13 +19,13 @@ Las contraseñas se derivan con scrypt y sal individual. La base de datos solo a
 
 Configura `CRM_ALLOWED_ORIGINS` con los dominios permitidos separados por coma y usa `NODE_ENV=production` al desplegar. El frontend de Vercel debe configurar `BACKEND_URL` y usar su proxy `/api` para conservar cookies del mismo sitio. Todas las escrituras requieren el encabezado `X-CRM-Request: 1`. La API devuelve `Cache-Control: no-store`.
 
-Rutas: `POST /auth/login`, `GET /auth/session`, `POST /auth/change-password`, `POST /auth/logout`, `GET /clients`, `GET /clients/privacy-notice`, `GET /clients/:id` y `POST /clients`. El listado devuelve datos de resumen; la ficha individual devuelve el informe completo. Al cambiar la contraseña inicial, la API habilita el acceso a clientes.
+Rutas: `POST /auth/login`, `GET /auth/session`, `POST /auth/logout`, `GET /clients`, `GET /clients/privacy-notice`, `GET /clients/activity-options`, `GET /clients/:id` y `POST /clients`. El listado devuelve datos de resumen; la ficha individual devuelve el informe completo. La antigua ruta `POST /auth/change-password` devuelve 404, incluso con sesión de administrador.
 
 La migración `baseline_existing_clients` reconstruye en disco la historia del esquema anterior, que ya se había aplicado por actualización directa. El marcador de la base actual está después de ese cambio: la migración nueva de administrador solo añade dos tablas, sus claves e índice; no elimina ni modifica registros de clientes.
 
 ## Pruebas del CRM
 
-`npm run test:crm` compila y prueba el hash de contraseñas y la configuración del aviso de datos. Para ejecutar también la integración real, establece `CRM_RUN_DB_TESTS=1` y ejecuta el mismo comando. Esa prueba crea un usuario y visitas QA con identificadores únicos, valida acceso, cambio de contraseña, cookies, consentimiento, guardado, consulta, revocación, caducidad y bloqueo. Al terminar elimina exclusivamente los registros QA creados por la prueba. Los datos ficticios de contacto del responsable existen solo durante la prueba, sin modificar `.env` ni la configuración de producción.
+`npm run test:crm` compila y prueba el hash de contraseñas, el cierre de la antigua ruta HTTP, la validación de la contraseña administrativa y la configuración del aviso de datos. Para ejecutar también la integración real, establece `CRM_RUN_DB_TESTS=1` y ejecuta el mismo comando. Esa prueba crea un usuario y visitas QA con identificadores únicos, ejecuta el comando administrativo sobre esa cuenta de prueba y valida acceso, entrega local de credenciales, cookies, consentimiento, guardado, consulta, revocación, caducidad y bloqueo. Al terminar elimina exclusivamente los registros y el archivo de acceso QA creados por la prueba. Los datos ficticios de contacto del responsable existen solo durante la prueba, sin modificar `.env` ni la configuración de producción.
 
 ## Autorización de datos personales
 
