@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'5dd10368119005a27582c1cad1520dc85b2358c2c1aa194b1ece2b27468f8d07'>;
+  StorageHashBase<'5a1f8271ccc6978364cf6a6b451bd1c0cd925de1de19ad0d8644547282a09313'>;
 export type ExecutionHash =
   ExecutionHashBase<'8daafdef253f264facd37401706fd2fe3a10c52ed020e6f042adc236475058e2'>;
 export type ProfileHash =
@@ -282,6 +282,7 @@ export type FieldOutputTypes = {
       readonly mobilityNeeds: CodecTypes['pg/text@1']['output'] | null;
       readonly mobilityNotes: CodecTypes['pg/text@1']['output'] | null;
       readonly independentActivities: CodecTypes['pg/text@1']['output'] | null;
+      readonly activityPreferences: CodecTypes['pg/text@1']['output'] | null;
       readonly independenceNotes: CodecTypes['pg/text@1']['output'] | null;
       readonly homeAccessConditions: CodecTypes['pg/text@1']['output'] | null;
       readonly homeSafetyNotes: CodecTypes['pg/text@1']['output'] | null;
@@ -343,6 +344,7 @@ export type FieldInputTypes = {
       readonly mobilityNeeds: CodecTypes['pg/text@1']['input'] | null;
       readonly mobilityNotes: CodecTypes['pg/text@1']['input'] | null;
       readonly independentActivities: CodecTypes['pg/text@1']['input'] | null;
+      readonly activityPreferences: CodecTypes['pg/text@1']['input'] | null;
       readonly independenceNotes: CodecTypes['pg/text@1']['input'] | null;
       readonly homeAccessConditions: CodecTypes['pg/text@1']['input'] | null;
       readonly homeSafetyNotes: CodecTypes['pg/text@1']['input'] | null;
@@ -382,6 +384,7 @@ export type StorageColumnTypes = {
       readonly username: CodecTypes['pg/text@1']['output'];
     };
     readonly client: {
+      readonly activityPreferences: CodecTypes['pg/text@1']['output'] | null;
       readonly address: CodecTypes['pg/text@1']['output'] | null;
       readonly approximateAge: CodecTypes['pg/int4@1']['output'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
@@ -443,6 +446,7 @@ export type StorageColumnInputTypes = {
       readonly username: CodecTypes['pg/text@1']['input'];
     };
     readonly client: {
+      readonly activityPreferences: CodecTypes['pg/text@1']['input'] | null;
       readonly address: CodecTypes['pg/text@1']['input'] | null;
       readonly approximateAge: CodecTypes['pg/int4@1']['input'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
@@ -529,6 +533,7 @@ export namespace Models {
     mobilityNeeds: CodecTypes['pg/text@1']['output'] | null;
     mobilityNotes: CodecTypes['pg/text@1']['output'] | null;
     independentActivities: CodecTypes['pg/text@1']['output'] | null;
+    activityPreferences: CodecTypes['pg/text@1']['output'] | null;
     independenceNotes: CodecTypes['pg/text@1']['output'] | null;
     homeAccessConditions: CodecTypes['pg/text@1']['output'] | null;
     homeSafetyNotes: CodecTypes['pg/text@1']['output'] | null;
@@ -801,6 +806,11 @@ type ContractBase = Omit<
                   readonly nullable: true;
                 };
                 readonly independentActivities: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly activityPreferences: {
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: true;
@@ -1107,6 +1117,10 @@ type ContractBase = Omit<
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
+              readonly activityPreferences: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly independenceNotes: {
                 readonly nullable: true;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -1205,6 +1219,7 @@ type ContractBase = Omit<
                 readonly mobilityNeeds: { readonly column: 'mobilityNeeds' };
                 readonly mobilityNotes: { readonly column: 'mobilityNotes' };
                 readonly independentActivities: { readonly column: 'independentActivities' };
+                readonly activityPreferences: { readonly column: 'activityPreferences' };
                 readonly independenceNotes: { readonly column: 'independenceNotes' };
                 readonly homeAccessConditions: { readonly column: 'homeAccessConditions' };
                 readonly homeSafetyNotes: { readonly column: 'homeSafetyNotes' };

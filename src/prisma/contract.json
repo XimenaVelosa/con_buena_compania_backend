@@ -192,6 +192,13 @@
           },
           "Client": {
             "fields": {
+              "activityPreferences": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "address": {
                 "nullable": true,
                 "type": {
@@ -462,6 +469,9 @@
             "relations": {},
             "storage": {
               "fields": {
+                "activityPreferences": {
+                  "column": "activityPreferences"
+                },
                 "address": {
                   "column": "address"
                 },
@@ -736,6 +746,11 @@
             },
             "client": {
               "columns": {
+                "activityPreferences": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "address": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
@@ -950,7 +965,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "5dd10368119005a27582c1cad1520dc85b2358c2c1aa194b1ece2b27468f8d07"
+    "storageHash": "5a1f8271ccc6978364cf6a6b451bd1c0cd925de1de19ad0d8644547282a09313"
   },
   "execution": {
     "executionHash": "8daafdef253f264facd37401706fd2fe3a10c52ed020e6f042adc236475058e2",

@@ -54,6 +54,7 @@ model Client {
   mobilityNeeds         String?
   mobilityNotes         String?
   independentActivities String?
+  activityPreferences   String? // Actividades, exclusiones, taxis y autorización de coordinación.
   independenceNotes     String?
   homeAccessConditions  String?
   homeSafetyNotes       String?

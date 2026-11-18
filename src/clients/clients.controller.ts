@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Req, UseGuards } from '@nestjs/common';
 import type { Request } from 'express';
 import { getPrivacyNotice } from './privacy-notice.js';
+import { getActivityCatalog } from './activities-catalog.js';
 import { AdminGuard } from '../auth/admin.guard.js';
 import { ClientsService } from './clients.service.js';
 import { CreateClientDto } from './dto/create-client.dto.js';
@@ -18,6 +19,11 @@ export class ClientsController {
   @Get('privacy-notice')
   privacyNotice() {
     return getPrivacyNotice();
+  }
+
+  @Get('activity-options')
+  activityOptions() {
+    return getActivityCatalog();
   }
 
   @Get(':id')

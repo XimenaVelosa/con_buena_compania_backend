@@ -40,6 +40,16 @@ La migración `add_data_authorization_evidence` agrega una columna de texto null
 
 El registro documenta una declaración electrónica durante la visita; no es una firma digital ni verifica identidad o representación. El texto y los procedimientos deben revisarse jurídicamente y complementarse con la política de tratamiento, seguridad y atención de derechos del negocio. Referencias: [Ley 1581 de 2012](https://normograma.dian.gov.co/dian/compilacion/docs/ley_1581_2012.htm) y [reglamentación sobre autorización y datos sensibles](https://normograma.dian.gov.co/dian/compilacion/docs/decreto_1377_2013.htm).
 
+## Actividades de interés y coordinación de taxi
+
+`GET /clients/activity-options`, protegido por la sesión administrativa, devuelve un catálogo versionado de ocho actividades con descripción y exclusiones, las condiciones comunes y el texto de autorización para coordinar un taxi de un tercero. La empresa y los acompañantes no prestan transporte, no conducen vehículos ni realizan oficios domésticos en ninguna actividad.
+
+El frontend envía `activitySelection` en `POST /clients`: `catalogVersion`, `catalogHash`, `selectedIds`, `transportMode`, `taxiContacts` y `taxiCoordinationAuthorized`. Si el modo es `authorize-taxi`, también envía `taxiAuthorizationName` y exige autorización verdadera. `trusted-taxi` requiere entre uno y cinco contactos con `name`, `phone`, `company` y `plate` (los dos últimos opcionales). `not-needed` registra actividad en casa o traslado resuelto por la persona. `pending` solo se admite sin actividades seleccionadas. Se rechazan contactos de opciones inactivas, actividades desconocidas o duplicadas, condiciones desactualizadas e intentos de aportar una fecha de autorización desde el navegador.
+
+La migración `20261118T1619_add_activity_preferences` agrega la columna nullable `activityPreferences`. Se conserva allí una copia del catálogo presentado para las actividades seleccionadas, las exclusiones comunes, los contactos y la decisión de taxi. Cuando se autoriza coordinar un taxi, el servidor añade el nombre del declarante, fecha, operador y texto exacto. `independentActivities` conserva los nombres de las actividades en el formato anterior para compatibilidad; con `activitySelection` se calculan desde el catálogo, sin aceptar títulos ni exclusiones arbitrarios del navegador. Los registros y solicitudes anteriores sin `activitySelection` mantienen su comportamiento.
+
+La integración del CRM prueba los tres modos de traslado, la autorización obligatoria cuando corresponde, el almacenamiento de contactos y condiciones, la compatibilidad con informes anteriores y la limpieza de los registros QA creados.
+
 ---
 
 <p align="center">

@@ -1,6 +1,7 @@
 import { IsBoolean, IsDefined, IsInt, IsNumber, IsOptional, IsString, MaxLength, Min, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { DataAuthorizationDto } from './data-authorization.dto.js';
+import { ActivitySelectionDto } from './activity-selection.dto.js';
 
 export class CreateClientDto {
   @IsDefined()
@@ -90,6 +91,11 @@ export class CreateClientDto {
   @IsOptional()
   @IsString()
   independentActivities?: string;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => ActivitySelectionDto)
+  activitySelection?: ActivitySelectionDto;
 
   @IsOptional()
   @IsString()

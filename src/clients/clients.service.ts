@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { getPrivacyNotice, SENSITIVE_FIELDS } from './privacy-notice.js';
+import { createActivityPreferences } from './activity-preferences.js';
 import { db } from '../prisma/db.js';
 import type { CreateClientDto } from './dto/create-client.dto.js';
 
@@ -23,6 +24,7 @@ export class ClientsService {
     if (!data.authorization.signerName.trim()) throw new BadRequestException('Indica quién manifestó la autorización.');
     if (data.authorization.signerRole === 'representante' && !data.authorization.representativeBasis?.trim()) throw new BadRequestException('Indica el fundamento de la representación.');
     if (!data.authorization.sensitiveData && SENSITIVE_FIELDS.some((field) => data[field]?.trim() && data[field]?.trim() !== '[]')) throw new BadRequestException('No incluyas datos de salud o cuidado sin autorización explícita para datos sensibles.');
+    const activityPreferences = data.activitySelection ? createActivityPreferences(data.activitySelection, recordedBy) : undefined;
     const dataAuthorization = JSON.stringify({
       ...data.authorization,
       signerName: data.authorization.signerName.trim(),
@@ -53,7 +55,8 @@ export class ClientsService {
       knowsVisit: data.knowsVisit ?? false,
       mobilityNeeds: data.mobilityNeeds,
       mobilityNotes: data.mobilityNotes,
-      independentActivities: data.independentActivities,
+      independentActivities: activityPreferences ? JSON.stringify(activityPreferences.selectedActivities.map((activity) => activity.title)) : data.independentActivities,
+      activityPreferences: activityPreferences ? JSON.stringify(activityPreferences) : undefined,
       independenceNotes: data.independenceNotes,
       homeAccessConditions: data.homeAccessConditions,
       homeSafetyNotes: data.homeSafetyNotes,
