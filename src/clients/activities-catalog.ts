@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-export const ACTIVITIES_VERSION = 'CBC-ACTIVIDADES-2026-11-20-v4';
+export const ACTIVITIES_VERSION = 'CBC-ACTIVIDADES-2026-11-20-v5';
 export const GROCERIES_DOMESTIC_EXCLUSION = 'Lavar platos, cocinar, limpiar, lavar o planchar ropa, ni asumir otros oficios domésticos.';
 export const TRANSPORT_EXCLUSION = 'Prestar transporte o conducir vehículos para trasladar a la persona o sus artículos.';
 const activities = [
@@ -63,6 +63,12 @@ const activities = [
     title: 'Acompañamiento religioso',
     description: 'Acompañamos a la persona a rezar el rosario en casa o en grupo, asistir a misa o visitar la iglesia. Seguimos sus preferencias y su ritmo durante la actividad.',
     exclusions: ['Oficiar ceremonias o asumir funciones de un ministro religioso.', TRANSPORT_EXCLUSION],
+  },
+  {
+    id: 'family-album',
+    title: 'Álbum familiar',
+    description: 'Ayudamos a recopilar fotos, nombres, fechas e historias que la familia quiera compartir. Organizamos el material por épocas o temas, decoramos las páginas y reconstruimos álbumes incompletos o desordenados con el material disponible.',
+    exclusions: ['Retirar fotos o documentos originales, o publicar o compartir el material familiar sin autorización.'],
   },
 ] as const;
 

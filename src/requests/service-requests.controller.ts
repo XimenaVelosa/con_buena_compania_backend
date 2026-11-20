@@ -21,6 +21,7 @@ const groups = [
   { title: 'Compras y diligencias', ids: ['groceries', 'personal-shopping', 'personal-errands', 'delegated-errands', 'institutional-procedures'] },
   { title: 'Tecnología, compañía y bienestar', ids: ['digital-support', 'wellbeing-company'] },
   { title: 'Vida espiritual', ids: ['religious-companionship'] },
+  { title: 'Otras actividades', ids: ['family-album'] },
 ].map(({ title, ids }) => ({
   title,
   activities: catalog.activities.filter((activity) => ids.includes(activity.id)).map((activity) => {
