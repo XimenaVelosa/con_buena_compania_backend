@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 
 export const ACTIVITIES_VERSION = 'CBC-ACTIVIDADES-2026-11-18-v1';
+export const GROCERIES_DOMESTIC_EXCLUSION = 'Lavar platos, cocinar, limpiar, lavar o planchar ropa, ni asumir otros oficios domésticos.';
 const activities = [
   {
     id: 'medical-appointments',
@@ -12,7 +13,7 @@ const activities = [
     id: 'groceries',
     title: 'Hacer mercado o compras para el hogar',
     description: 'Acompañamiento personalizado al supermercado o tienda para ubicar los artículos elegidos por la persona, apoyar la compra y coordinar con un tercero el traslado de la persona y sus productos al domicilio.',
-    exclusions: ['Decidir las compras o manejar dinero, tarjetas o claves sin autorización de la persona.', 'Lavar platos, cocinar, limpiar, lavar o planchar ropa, ni asumir otros oficios domésticos.', 'Cargar objetos que superen las condiciones seguras acordadas para el acompañamiento.'],
+    exclusions: ['Decidir las compras o manejar dinero, tarjetas o claves sin autorización de la persona.', GROCERIES_DOMESTIC_EXCLUSION, 'Cargar objetos que superen las condiciones seguras acordadas para el acompañamiento.'],
   },
   {
     id: 'personal-errands',

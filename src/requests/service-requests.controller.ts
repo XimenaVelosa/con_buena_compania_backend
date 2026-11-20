@@ -3,7 +3,7 @@ import {
   DefaultValuePipe, ParseIntPipe,
 } from '@nestjs/common';
 import { AdminGuard } from '../auth/admin.guard.js';
-import { getActivityCatalog } from '../clients/activities-catalog.js';
+import { getActivityCatalog, GROCERIES_DOMESTIC_EXCLUSION } from '../clients/activities-catalog.js';
 import { getPrivacyNotice } from '../clients/privacy-notice.js';
 import { db } from '../prisma/db.js';
 import { CreateServiceRequestDto, REQUEST_DAYS, REQUEST_NOTICE_VERSION } from './create-service-request.dto.js';
@@ -15,7 +15,14 @@ const groups = [
   { title: 'Salud y farmacia', ids: ['medical-appointments', 'pharmacy-pickup'] },
   { title: 'Compras y diligencias', ids: ['groceries', 'personal-shopping', 'personal-errands', 'institutional-procedures'] },
   { title: 'Tecnología, compañía y bienestar', ids: ['digital-support', 'wellbeing-company'] },
-].map(({ title, ids }) => ({ title, activities: catalog.activities.filter((activity) => ids.includes(activity.id)) }));
+].map(({ title, ids }) => ({
+  title,
+  activities: catalog.activities.filter((activity) => ids.includes(activity.id)).map((activity) =>
+    activity.id === 'groceries'
+      ? { ...activity, exclusions: activity.exclusions.filter((exclusion) => exclusion !== GROCERIES_DOMESTIC_EXCLUSION) }
+      : activity,
+  ),
+}));
 
 function requestNotice() {
   const privacy = getPrivacyNotice();
