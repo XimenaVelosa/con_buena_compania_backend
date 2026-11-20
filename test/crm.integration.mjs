@@ -141,10 +141,11 @@ test('CRM authenticated workflow against configured database (isolated QA record
     const authorization = { personalData: true, truthfulness: true, sensitiveData: false, signerName: 'Titular QA', signerRole: 'titular', version: notice.body.version, noticeHash: notice.body.hash };
     const payload = { fullName: `CRM QA ${username}`, visitDate: '2026-11-16', visitLocation: 'QA address', visitLatitude: 4.6, visitLongitude: -74.0, independentActivities: '["Lectura"]', payerName: 'Acudiente QA', guardianIdNumber: '001234567', guardianAddress: 'Calle de prueba 10', guardianPhone: '+57 300 123 4567', emergencyContacts };
     const catalog = (await request(server).get('/clients/activity-options').set('Cookie', newCookie).expect(200)).body;
-    assert.equal(catalog.activities.length, 11);
+    assert.equal(catalog.activities.length, 12);
     assert.ok(catalog.activities.some((activity) => activity.id === 'religious-companionship'));
     assert.ok(catalog.activities.some((activity) => activity.id === 'delegated-errands'));
     assert.ok(catalog.activities.some((activity) => activity.id === 'family-album'));
+    assert.ok(catalog.activities.some((activity) => activity.id === 'walking-exercise'));
     const activitySelection = { catalogVersion: catalog.version, catalogHash: catalog.hash, selectedIds: [catalog.activities[0].id, catalog.activities[7].id], transportMode: 'authorize-taxi', taxiContacts: [], taxiCoordinationAuthorized: true, taxiAuthorizationName: 'Acudiente QA' };
     async function reject(body) {
       const result = await post('/clients', body, newCookie);
