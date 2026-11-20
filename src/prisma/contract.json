@@ -15,6 +15,10 @@
     "client": {
       "model": "Client",
       "namespace": "public"
+    },
+    "serviceRequest": {
+      "model": "ServiceRequest",
+      "namespace": "public"
     }
   },
   "domain": {
@@ -590,6 +594,139 @@
               "namespaceId": "public",
               "table": "client"
             }
+          },
+          "ServiceRequest": {
+            "fields": {
+              "activities": {
+                "many": true,
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "alternatePhone": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "authorization": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "days": {
+                "many": true,
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "department": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "email": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "fullName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "hoursPerDay": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/float8@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/uuid@1",
+                  "kind": "scalar"
+                }
+              },
+              "municipality": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "phone": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "activities": {
+                  "column": "activities"
+                },
+                "alternatePhone": {
+                  "column": "alternatePhone"
+                },
+                "authorization": {
+                  "column": "authorization"
+                },
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "days": {
+                  "column": "days"
+                },
+                "department": {
+                  "column": "department"
+                },
+                "email": {
+                  "column": "email"
+                },
+                "fullName": {
+                  "column": "fullName"
+                },
+                "hoursPerDay": {
+                  "column": "hoursPerDay"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "municipality": {
+                  "column": "municipality"
+                },
+                "phone": {
+                  "column": "phone"
+                }
+              },
+              "namespaceId": "public",
+              "table": "serviceRequest"
+            }
           }
         }
       }
@@ -958,6 +1095,105 @@
                 ]
               },
               "uniques": []
+            },
+            "serviceRequest": {
+              "checks": [
+                {
+                  "expression": "array_position(\"activities\", NULL) IS NULL",
+                  "name": "serviceRequest_activities_elem_not_null_078e4c08",
+                  "prefix": "serviceRequest_activities_elem_not_null"
+                },
+                {
+                  "expression": "array_position(\"days\", NULL) IS NULL",
+                  "name": "serviceRequest_days_elem_not_null_b975257c",
+                  "prefix": "serviceRequest_days_elem_not_null"
+                }
+              ],
+              "columns": {
+                "activities": {
+                  "codecId": "pg/text@1",
+                  "many": true,
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "alternatePhone": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "authorization": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "createdAt": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "days": {
+                  "codecId": "pg/text@1",
+                  "many": true,
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "department": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "email": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "fullName": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "hoursPerDay": {
+                  "codecId": "pg/float8@1",
+                  "nativeType": "float8",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/uuid@1",
+                  "nativeType": "uuid",
+                  "nullable": false
+                },
+                "municipality": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "phone": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [
+                {
+                  "columns": [
+                    "createdAt"
+                  ],
+                  "name": "serviceRequest_createdAt_idx_9575dbd7",
+                  "prefix": "serviceRequest_createdAt_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
             }
           }
         },
@@ -965,7 +1201,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "5a1f8271ccc6978364cf6a6b451bd1c0cd925de1de19ad0d8644547282a09313"
+    "storageHash": "8aaf4184eea0a4d5b8214d18f089c278f9230a17f1a185a525dd1e38633cff45"
   },
   "execution": {
     "executionHash": "8daafdef253f264facd37401706fd2fe3a10c52ed020e6f042adc236475058e2",

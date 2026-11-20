@@ -73,3 +73,20 @@ model Client {
   createdAt      temporal.createdAt()
   updatedAt      temporal.updatedAt()
 }
+
+model ServiceRequest {
+  id             Uuid @id
+  fullName       String
+  email          String
+  phone          String
+  alternatePhone String?
+  department     String
+  municipality   String
+  hoursPerDay    Float
+  days           String[]
+  activities     String[]
+  authorization  String
+  createdAt      temporal.createdAt()
+
+  @@index([createdAt])
+}

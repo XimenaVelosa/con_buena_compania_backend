@@ -1,0 +1,80 @@
+[
+  {
+    "id": "table.serviceRequest",
+    "label": "Create table \"serviceRequest\"",
+    "summary": "Creates table \"serviceRequest\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "serviceRequest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"serviceRequest\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"serviceRequest\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"serviceRequest\"",
+        "sql": "CREATE TABLE \"public\".\"serviceRequest\" (\n  \"activities\" text[] NOT NULL,\n  \"alternatePhone\" text,\n  \"authorization\" text NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"days\" text[] NOT NULL,\n  \"department\" text NOT NULL,\n  \"email\" text NOT NULL,\n  \"fullName\" text NOT NULL,\n  \"hoursPerDay\" float8 NOT NULL,\n  \"id\" uuid NOT NULL,\n  \"municipality\" text NOT NULL,\n  \"phone\" text NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"serviceRequest_activities_elem_not_null_078e4c08\" CHECK (array_position(\"activities\", NULL) IS NULL),\n  CONSTRAINT \"serviceRequest_days_elem_not_null_b975257c\" CHECK (array_position(\"days\", NULL) IS NULL)\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"serviceRequest\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"serviceRequest\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.serviceRequest.serviceRequest_createdAt_idx_9575dbd7",
+    "label": "Create index \"serviceRequest_createdAt_idx_9575dbd7\" on \"serviceRequest\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "serviceRequest_createdAt_idx_9575dbd7",
+        "table": "serviceRequest"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"serviceRequest_createdAt_idx_9575dbd7\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"serviceRequest_createdAt_idx_9575dbd7\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"serviceRequest_createdAt_idx_9575dbd7\"",
+        "sql": "CREATE INDEX \"serviceRequest_createdAt_idx_9575dbd7\" ON \"public\".\"serviceRequest\" (\"createdAt\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"serviceRequest_createdAt_idx_9575dbd7\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"serviceRequest_createdAt_idx_9575dbd7\""
+        ]
+      }
+    ]
+  }
+]

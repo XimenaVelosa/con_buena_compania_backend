@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'5a1f8271ccc6978364cf6a6b451bd1c0cd925de1de19ad0d8644547282a09313'>;
+  StorageHashBase<'8aaf4184eea0a4d5b8214d18f089c278f9230a17f1a185a525dd1e38633cff45'>;
 export type ExecutionHash =
   ExecutionHashBase<'8daafdef253f264facd37401706fd2fe3a10c52ed020e6f042adc236475058e2'>;
 export type ProfileHash =
@@ -300,6 +300,20 @@ export type FieldOutputTypes = {
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
+    readonly ServiceRequest: {
+      readonly id: CodecTypes['pg/uuid@1']['output'];
+      readonly fullName: CodecTypes['pg/text@1']['output'];
+      readonly email: CodecTypes['pg/text@1']['output'];
+      readonly phone: CodecTypes['pg/text@1']['output'];
+      readonly alternatePhone: CodecTypes['pg/text@1']['output'] | null;
+      readonly department: CodecTypes['pg/text@1']['output'];
+      readonly municipality: CodecTypes['pg/text@1']['output'];
+      readonly hoursPerDay: CodecTypes['pg/float8@1']['output'];
+      readonly days: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
+      readonly activities: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
+      readonly authorization: CodecTypes['pg/text@1']['output'];
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    };
   };
 };
 export type FieldInputTypes = {
@@ -361,6 +375,20 @@ export type FieldInputTypes = {
       readonly finalNotes: CodecTypes['pg/text@1']['input'] | null;
       readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+    };
+    readonly ServiceRequest: {
+      readonly id: CodecTypes['pg/uuid@1']['input'];
+      readonly fullName: CodecTypes['pg/text@1']['input'];
+      readonly email: CodecTypes['pg/text@1']['input'];
+      readonly phone: CodecTypes['pg/text@1']['input'];
+      readonly alternatePhone: CodecTypes['pg/text@1']['input'] | null;
+      readonly department: CodecTypes['pg/text@1']['input'];
+      readonly municipality: CodecTypes['pg/text@1']['input'];
+      readonly hoursPerDay: CodecTypes['pg/float8@1']['input'];
+      readonly days: ReadonlyArray<CodecTypes['pg/text@1']['input']>;
+      readonly activities: ReadonlyArray<CodecTypes['pg/text@1']['input']>;
+      readonly authorization: CodecTypes['pg/text@1']['input'];
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
   };
 };
@@ -424,6 +452,20 @@ export type StorageColumnTypes = {
       readonly visitLongitude: CodecTypes['pg/float8@1']['output'] | null;
       readonly visitTime: CodecTypes['pg/text@1']['output'] | null;
     };
+    readonly serviceRequest: {
+      readonly activities: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
+      readonly alternatePhone: CodecTypes['pg/text@1']['output'] | null;
+      readonly authorization: CodecTypes['pg/text@1']['output'];
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+      readonly days: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
+      readonly department: CodecTypes['pg/text@1']['output'];
+      readonly email: CodecTypes['pg/text@1']['output'];
+      readonly fullName: CodecTypes['pg/text@1']['output'];
+      readonly hoursPerDay: CodecTypes['pg/float8@1']['output'];
+      readonly id: CodecTypes['pg/uuid@1']['output'];
+      readonly municipality: CodecTypes['pg/text@1']['output'];
+      readonly phone: CodecTypes['pg/text@1']['output'];
+    };
   };
 };
 export type StorageColumnInputTypes = {
@@ -485,6 +527,20 @@ export type StorageColumnInputTypes = {
       readonly visitLocation: CodecTypes['pg/text@1']['input'] | null;
       readonly visitLongitude: CodecTypes['pg/float8@1']['input'] | null;
       readonly visitTime: CodecTypes['pg/text@1']['input'] | null;
+    };
+    readonly serviceRequest: {
+      readonly activities: ReadonlyArray<CodecTypes['pg/text@1']['input']>;
+      readonly alternatePhone: CodecTypes['pg/text@1']['input'] | null;
+      readonly authorization: CodecTypes['pg/text@1']['input'];
+      readonly createdAt: CodecTypes['pg/timestamptz-temporal@1']['input'];
+      readonly days: ReadonlyArray<CodecTypes['pg/text@1']['input']>;
+      readonly department: CodecTypes['pg/text@1']['input'];
+      readonly email: CodecTypes['pg/text@1']['input'];
+      readonly fullName: CodecTypes['pg/text@1']['input'];
+      readonly hoursPerDay: CodecTypes['pg/float8@1']['input'];
+      readonly id: CodecTypes['pg/uuid@1']['input'];
+      readonly municipality: CodecTypes['pg/text@1']['input'];
+      readonly phone: CodecTypes['pg/text@1']['input'];
     };
   };
 };
@@ -552,6 +608,21 @@ export namespace Models {
     updatedAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
     readonly [RelationKeys]?: never;
   };
+  export type public_ServiceRequest = {
+    id: CodecTypes['pg/uuid@1']['output'];
+    fullName: CodecTypes['pg/text@1']['output'];
+    email: CodecTypes['pg/text@1']['output'];
+    phone: CodecTypes['pg/text@1']['output'];
+    alternatePhone: CodecTypes['pg/text@1']['output'] | null;
+    department: CodecTypes['pg/text@1']['output'];
+    municipality: CodecTypes['pg/text@1']['output'];
+    hoursPerDay: CodecTypes['pg/float8@1']['output'];
+    days: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
+    activities: ReadonlyArray<CodecTypes['pg/text@1']['output']>;
+    authorization: CodecTypes['pg/text@1']['output'];
+    createdAt: CodecTypes['pg/timestamptz-temporal@1']['output'];
+    readonly [RelationKeys]?: never;
+  };
 }
 
 export declare const models: {
@@ -559,6 +630,7 @@ export declare const models: {
     AdminUser: Models.public_AdminUser;
     AdminSession: Models.public_AdminSession;
     Client: Models.public_Client;
+    ServiceRequest: Models.public_ServiceRequest;
   };
 };
 
@@ -902,6 +974,82 @@ type ContractBase = Omit<
               indexes: readonly [];
               foreignKeys: readonly [];
             };
+            readonly serviceRequest: {
+              columns: {
+                readonly id: {
+                  readonly nativeType: 'uuid';
+                  readonly codecId: 'pg/uuid@1';
+                  readonly nullable: false;
+                };
+                readonly fullName: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly email: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly phone: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly alternatePhone: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly department: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly municipality: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly hoursPerDay: {
+                  readonly nativeType: 'float8';
+                  readonly codecId: 'pg/float8@1';
+                  readonly nullable: false;
+                };
+                readonly days: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly activities: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly authorization: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: false;
+                };
+                readonly createdAt: {
+                  readonly nativeType: 'timestamptz';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                  readonly nullable: false;
+                  readonly default: { readonly kind: 'function'; readonly expression: 'now()' };
+                };
+              };
+              primaryKey: { readonly columns: readonly ['id'] };
+              uniques: readonly [];
+              indexes: readonly [
+                {
+                  readonly name: 'serviceRequest_createdAt_idx_9575dbd7';
+                  readonly prefix: 'serviceRequest_createdAt_idx';
+                  readonly columns: readonly ['createdAt'];
+                  readonly unique: false;
+                },
+              ];
+              foreignKeys: readonly [];
+            };
           };
         };
       };
@@ -919,6 +1067,10 @@ type ContractBase = Omit<
       readonly model: 'AdminSession';
     };
     readonly client: { readonly namespace: 'public' & NamespaceId; readonly model: 'Client' };
+    readonly serviceRequest: {
+      readonly namespace: 'public' & NamespaceId;
+      readonly model: 'ServiceRequest';
+    };
   };
   readonly domain: {
     readonly namespaces: {
@@ -1236,6 +1388,82 @@ type ContractBase = Omit<
                 readonly finalNotes: { readonly column: 'finalNotes' };
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
+              };
+            };
+          };
+          readonly ServiceRequest: {
+            readonly fields: {
+              readonly id: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/uuid@1' };
+              };
+              readonly fullName: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly email: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly phone: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly alternatePhone: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly department: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly municipality: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly hoursPerDay: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
+              readonly days: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+                readonly many: true;
+              };
+              readonly activities: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+                readonly many: true;
+              };
+              readonly authorization: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly createdAt: {
+                readonly nullable: false;
+                readonly type: {
+                  readonly kind: 'scalar';
+                  readonly codecId: 'pg/timestamptz-temporal@1';
+                };
+              };
+            };
+            readonly relations: Record<string, never>;
+            readonly storage: {
+              readonly table: 'serviceRequest';
+              readonly namespaceId: 'public';
+              readonly fields: {
+                readonly id: { readonly column: 'id' };
+                readonly fullName: { readonly column: 'fullName' };
+                readonly email: { readonly column: 'email' };
+                readonly phone: { readonly column: 'phone' };
+                readonly alternatePhone: { readonly column: 'alternatePhone' };
+                readonly department: { readonly column: 'department' };
+                readonly municipality: { readonly column: 'municipality' };
+                readonly hoursPerDay: { readonly column: 'hoursPerDay' };
+                readonly days: { readonly column: 'days' };
+                readonly activities: { readonly column: 'activities' };
+                readonly authorization: { readonly column: 'authorization' };
+                readonly createdAt: { readonly column: 'createdAt' };
               };
             };
           };
