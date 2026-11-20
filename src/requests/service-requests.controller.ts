@@ -3,7 +3,7 @@ import {
   DefaultValuePipe, ParseIntPipe,
 } from '@nestjs/common';
 import { AdminGuard } from '../auth/admin.guard.js';
-import { getActivityCatalog, GROCERIES_DOMESTIC_EXCLUSION } from '../clients/activities-catalog.js';
+import { getActivityCatalog, GROCERIES_DOMESTIC_EXCLUSION, TRANSPORT_EXCLUSION } from '../clients/activities-catalog.js';
 import { getPrivacyNotice } from '../clients/privacy-notice.js';
 import { db } from '../prisma/db.js';
 import { CreateServiceRequestDto, REQUEST_DAYS, REQUEST_NOTICE_VERSION } from './create-service-request.dto.js';
@@ -11,17 +11,24 @@ import divipola from './divipola.json' with { type: 'json' };
 
 const departments: Record<string, { name: string; municipalities: Record<string, string> }> = divipola.departments;
 const catalog = getActivityCatalog();
+const transportCostNote = 'Si se necesita transporte de un tercero, el cliente asume el costo del traslado.';
+const activitiesWithOutings = new Set([
+  'medical-appointments', 'pharmacy-pickup', 'groceries', 'personal-shopping',
+  'personal-errands', 'institutional-procedures', 'wellbeing-company',
+]);
 const groups = [
   { title: 'Salud y farmacia', ids: ['medical-appointments', 'pharmacy-pickup'] },
   { title: 'Compras y diligencias', ids: ['groceries', 'personal-shopping', 'personal-errands', 'institutional-procedures'] },
   { title: 'Tecnología, compañía y bienestar', ids: ['digital-support', 'wellbeing-company'] },
 ].map(({ title, ids }) => ({
   title,
-  activities: catalog.activities.filter((activity) => ids.includes(activity.id)).map((activity) =>
-    activity.id === 'groceries'
-      ? { ...activity, exclusions: activity.exclusions.filter((exclusion) => exclusion !== GROCERIES_DOMESTIC_EXCLUSION) }
-      : activity,
-  ),
+  activities: catalog.activities.filter((activity) => ids.includes(activity.id)).map((activity) => {
+    const exclusions: string[] = activity.exclusions.filter((exclusion) =>
+      exclusion !== TRANSPORT_EXCLUSION && (activity.id !== 'groceries' || exclusion !== GROCERIES_DOMESTIC_EXCLUSION),
+    );
+    if (activitiesWithOutings.has(activity.id)) exclusions.push(`${TRANSPORT_EXCLUSION} ${transportCostNote}`);
+    return { ...activity, exclusions };
+  }),
 }));
 
 function requestNotice() {

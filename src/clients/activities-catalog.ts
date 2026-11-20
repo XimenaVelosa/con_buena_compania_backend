@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 
 export const ACTIVITIES_VERSION = 'CBC-ACTIVIDADES-2026-11-18-v1';
 export const GROCERIES_DOMESTIC_EXCLUSION = 'Lavar platos, cocinar, limpiar, lavar o planchar ropa, ni asumir otros oficios domésticos.';
+export const TRANSPORT_EXCLUSION = 'Prestar transporte o conducir vehículos para trasladar a la persona o sus artículos.';
 const activities = [
   {
     id: 'medical-appointments',
@@ -25,7 +26,7 @@ const activities = [
     id: 'personal-shopping',
     title: 'Comprar ropa, medicamentos u otros artículos personales',
     description: 'Acompañar a centros comerciales, farmacias y otros establecimientos para apoyar la búsqueda, selección y compra de artículos que la persona elige y autoriza. Se puede acordar el encuentro en el establecimiento o la recogida en el domicilio.',
-    exclusions: ['Elegir o comprar productos sin autorización de la persona.', 'Dar recomendaciones médicas, cambiar fórmulas o decidir sustituciones de medicamentos.', 'Prestar transporte o conducir vehículos para trasladar a la persona o sus artículos.'],
+    exclusions: ['Elegir o comprar productos sin autorización de la persona.', 'Dar recomendaciones médicas, cambiar fórmulas o decidir sustituciones de medicamentos.', TRANSPORT_EXCLUSION],
   },
   {
     id: 'pharmacy-pickup',
