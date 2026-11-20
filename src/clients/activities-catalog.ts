@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-export const ACTIVITIES_VERSION = 'CBC-ACTIVIDADES-2026-11-20-v2';
+export const ACTIVITIES_VERSION = 'CBC-ACTIVIDADES-2026-11-20-v3';
 export const GROCERIES_DOMESTIC_EXCLUSION = 'Lavar platos, cocinar, limpiar, lavar o planchar ropa, ni asumir otros oficios domésticos.';
 export const TRANSPORT_EXCLUSION = 'Prestar transporte o conducir vehículos para trasladar a la persona o sus artículos.';
 const activities = [
@@ -18,9 +18,15 @@ const activities = [
   },
   {
     id: 'personal-errands',
-    title: 'Realizar diligencias bancarias, notariales o administrativas',
-    description: 'Acompañar durante los desplazamientos, apoyar la gestión de turnos y orientar en la organización de documentos, respetando la privacidad, autonomía y decisiones de la persona.',
+    title: 'Acompañamiento a diligencias bancarias, notariales o administrativas',
+    description: 'Vamos con la persona a la entidad, la ayudamos a ubicar la oficina, gestionar el turno y organizar sus documentos. La persona realiza las gestiones que requieren su presencia o decisión.',
     exclusions: ['Firmar, representar a la persona o tomar decisiones legales o financieras en su nombre.', 'Hacer transacciones, manejar claves o acceder a cuentas bancarias.', 'Retener documentos o dinero de la persona.'],
+  },
+  {
+    id: 'delegated-errands',
+    title: 'Diligencias por encargo',
+    description: 'Cuando la entidad permite hacer la gestión sin la presencia de la persona, podemos radicar, recoger o entregar documentos con su autorización y llevarle a casa los documentos o comprobantes. Confirmamos antes qué autorización o documentos exige la entidad.',
+    exclusions: ['Hacer trámites que exijan la presencia personal, firmar, suplantar o ejercer representación legal.', 'Hacer transacciones bancarias, manejar dinero o acceder a cuentas, tarjetas o claves.'],
   },
   {
     id: 'personal-shopping',
