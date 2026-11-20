@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-export const ACTIVITIES_VERSION = 'CBC-ACTIVIDADES-2026-11-18-v1';
+export const ACTIVITIES_VERSION = 'CBC-ACTIVIDADES-2026-11-20-v2';
 export const GROCERIES_DOMESTIC_EXCLUSION = 'Lavar platos, cocinar, limpiar, lavar o planchar ropa, ni asumir otros oficios domésticos.';
 export const TRANSPORT_EXCLUSION = 'Prestar transporte o conducir vehículos para trasladar a la persona o sus artículos.';
 const activities = [
@@ -52,6 +52,12 @@ const activities = [
     description: 'Acompañar en el domicilio o fuera de él mediante juegos de mesa, lectura, conversación, actividades creativas, ejercicios recreativos de memoria, pasatiempos y actividades sociales. Son actividades recreativas y de bienestar.',
     exclusions: ['Realizar terapias clínicas o cuidados de enfermería.', 'Hacer higiene personal, suministrar medicamentos o prestar vigilancia permanente.', 'Lavar platos, cocinar, limpiar, lavar o planchar ropa, ni realizar otros quehaceres de la casa.'],
   },
+  {
+    id: 'religious-companionship',
+    title: 'Acompañamiento religioso',
+    description: 'Acompañamos a la persona a rezar el rosario en casa o en grupo, asistir a misa o visitar la iglesia. Seguimos sus preferencias y su ritmo durante la actividad.',
+    exclusions: ['Oficiar ceremonias o asumir funciones de un ministro religioso.', TRANSPORT_EXCLUSION],
+  },
 ] as const;
 
 export const ACTIVITY_IDS = activities.map((activity) => activity.id);
@@ -59,7 +65,7 @@ export const ACTIVITY_IDS = activities.map((activity) => activity.id);
 export function getActivityCatalog() {
   const catalog = {
     version: ACTIVITIES_VERSION,
-    introduction: 'A continuación encontrarás ocho actividades que le interesaría contratar. Puedes seleccionar varias. Como la mayoría requiere desplazamientos, es importante saber que Con Buena Compañía no es una empresa de transporte, no presta ese servicio y sus acompañantes no pueden conducir vehículos. Cuando se necesite un taxi, registraremos los contactos de confianza de la persona; si no cuenta con uno, deberá autorizarnos expresamente a buscar y coordinar un taxi de confianza prestado por un tercero, marcando la casilla al final de esta sección.',
+    introduction: 'A continuación encontrarás las actividades que le interesaría contratar. Puedes seleccionar varias. Como la mayoría requiere desplazamientos, es importante saber que Con Buena Compañía no es una empresa de transporte, no presta ese servicio y sus acompañantes no pueden conducir vehículos. Cuando se necesite un taxi, registraremos los contactos de confianza de la persona; si no cuenta con uno, deberá autorizarnos expresamente a buscar y coordinar un taxi de confianza prestado por un tercero, marcando la casilla al final de esta sección.',
     scopeNotice: 'En ninguna de estas actividades se permite que el acompañante conduzca vehículos ni realice oficios domésticos, como lavar platos, cocinar, limpiar, lavar o planchar ropa. Estas tareas están excluidas y no se pueden acordar como parte del acompañamiento ni como tareas adicionales.',
     commonExclusion: 'En esta actividad tampoco se permite que el acompañante conduzca vehículos ni realice oficios domésticos.',
     taxiAuthorizationText: 'Autorizo a Con Buena Compañía a buscar y coordinar un taxi de confianza prestado por un tercero para los traslados que se acuerden. Entiendo que Con Buena Compañía no presta el servicio de transporte y que sus acompañantes no pueden conducir vehículos.',

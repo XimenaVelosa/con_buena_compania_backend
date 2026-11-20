@@ -14,12 +14,13 @@ const catalog = getActivityCatalog();
 const transportCostNote = 'Si se necesita transporte de un tercero, el cliente asume el costo del traslado.';
 const activitiesWithOutings = new Set([
   'medical-appointments', 'pharmacy-pickup', 'groceries', 'personal-shopping',
-  'personal-errands', 'institutional-procedures', 'wellbeing-company',
+  'personal-errands', 'institutional-procedures', 'wellbeing-company', 'religious-companionship',
 ]);
 const groups = [
   { title: 'Salud y farmacia', ids: ['medical-appointments', 'pharmacy-pickup'] },
   { title: 'Compras y diligencias', ids: ['groceries', 'personal-shopping', 'personal-errands', 'institutional-procedures'] },
   { title: 'Tecnología, compañía y bienestar', ids: ['digital-support', 'wellbeing-company'] },
+  { title: 'Vida espiritual', ids: ['religious-companionship'] },
 ].map(({ title, ids }) => ({
   title,
   activities: catalog.activities.filter((activity) => ids.includes(activity.id)).map((activity) => {

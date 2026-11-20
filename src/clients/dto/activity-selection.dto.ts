@@ -37,7 +37,7 @@ export class ActivitySelectionDto {
   catalogHash!: string;
 
   @IsArray()
-  @ArrayMaxSize(8)
+  @ArrayMaxSize(ACTIVITY_IDS.length)
   @ArrayUnique()
   @IsIn(ACTIVITY_IDS, { each: true })
   selectedIds!: string[];
