@@ -83,6 +83,31 @@ test('Administrative password validation rejects invalid input before a database
   }
 });
 
+test('The branded frontend can submit requests even with an explicit origin configuration', async () => {
+  const previousOrigins = process.env.CRM_ALLOWED_ORIGINS;
+  process.env.CRM_ALLOWED_ORIGINS = 'https://con-buena-compania.vercel.app';
+  const app = await NestFactory.create(AppModule, { logger: false });
+  try {
+    configureSecurity(app);
+    app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
+    await app.init();
+    const server = app.getHttpServer();
+    for (const origin of ['https://conbuenacompania.com', 'https://www.conbuenacompania.com', process.env.CRM_ALLOWED_ORIGINS]) {
+      await request(server).post('/service-requests')
+        .set('Origin', origin).set('X-CRM-Request', '1').send({})
+        .expect('Access-Control-Allow-Origin', origin).expect(400);
+    }
+    await request(server).post('/service-requests')
+      .set('Origin', 'https://conbuenacompania.com.example.test').set('X-CRM-Request', '1').send({}).expect(403);
+    await request(server).post('/service-requests')
+      .set('Origin', 'https://conbuenacompania.com').send({}).expect(403);
+  } finally {
+    if (previousOrigins === undefined) delete process.env.CRM_ALLOWED_ORIGINS;
+    else process.env.CRM_ALLOWED_ORIGINS = previousOrigins;
+    await app.close();
+  }
+});
+
 test('CRM authenticated workflow against configured database (isolated QA records)', { skip: process.env.CRM_RUN_DB_TESTS !== '1' }, async () => {
   const username = `qa_${randomBytes(8).toString('hex')}`;
   const initialPassword = randomBytes(18).toString('base64url');

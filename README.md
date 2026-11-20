@@ -17,7 +17,7 @@ Las contraseñas se derivan con scrypt y sal individual. La base de datos solo a
 
 ## Frontend y despliegue
 
-Configura `CRM_ALLOWED_ORIGINS` con los dominios permitidos separados por coma y usa `NODE_ENV=production` al desplegar. El frontend de Vercel debe configurar `BACKEND_URL` y usar su proxy `/api` para conservar cookies del mismo sitio. Todas las escrituras requieren el encabezado `X-CRM-Request: 1`. La API devuelve `Cache-Control: no-store`.
+La API autoriza `https://conbuenacompania.com` y `https://www.conbuenacompania.com`. Usa `CRM_ALLOWED_ORIGINS` para indicar otros orígenes permitidos, separados por coma, y `NODE_ENV=production` al desplegar. El frontend de Vercel debe configurar `BACKEND_URL` y usar su proxy `/api` para conservar cookies del mismo sitio. Todas las escrituras requieren el encabezado `X-CRM-Request: 1`. La API devuelve `Cache-Control: no-store`.
 
 Rutas: `POST /auth/login`, `GET /auth/session`, `POST /auth/logout`, `GET /clients`, `GET /clients/privacy-notice`, `GET /clients/activity-options`, `GET /clients/:id` y `POST /clients`. El listado devuelve datos de resumen; la ficha individual devuelve el informe completo. La antigua ruta `POST /auth/change-password` devuelve 404, incluso con sesión de administrador.
 
