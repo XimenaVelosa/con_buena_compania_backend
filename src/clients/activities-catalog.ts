@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-export const ACTIVITIES_VERSION = 'CBC-ACTIVIDADES-2026-11-20-v3';
+export const ACTIVITIES_VERSION = 'CBC-ACTIVIDADES-2026-11-20-v4';
 export const GROCERIES_DOMESTIC_EXCLUSION = 'Lavar platos, cocinar, limpiar, lavar o planchar ropa, ni asumir otros oficios domésticos.';
 export const TRANSPORT_EXCLUSION = 'Prestar transporte o conducir vehículos para trasladar a la persona o sus artículos.';
 const activities = [
@@ -55,8 +55,8 @@ const activities = [
   {
     id: 'wellbeing-company',
     title: 'Compañía en casa, bienestar, estimulación y juegos',
-    description: 'Acompañar en el domicilio o fuera de él mediante juegos de mesa, lectura, conversación, actividades creativas, ejercicios recreativos de memoria, pasatiempos y actividades sociales. Son actividades recreativas y de bienestar.',
-    exclusions: ['Realizar terapias clínicas o cuidados de enfermería.', 'Hacer higiene personal, suministrar medicamentos o prestar vigilancia permanente.', 'Lavar platos, cocinar, limpiar, lavar o planchar ropa, ni realizar otros quehaceres de la casa.'],
+    description: 'Acompañar en el domicilio o fuera de él mediante juegos de mesa, lectura, conversación, actividades creativas, ejercicios recreativos de memoria, pasatiempos y actividades sociales. También acompañamos a la persona a caminar o hacer ejercicio dentro o fuera de casa, a su ritmo y según la actividad que elija.',
+    exclusions: ['Dar clases de ejercicio, diseñar rutinas o actuar como entrenador personal.', 'Realizar terapias clínicas o cuidados de enfermería.', 'Hacer higiene personal, suministrar medicamentos o prestar vigilancia permanente.', 'Lavar platos, cocinar, limpiar, lavar o planchar ropa, ni realizar otros quehaceres de la casa.'],
   },
   {
     id: 'religious-companionship',
